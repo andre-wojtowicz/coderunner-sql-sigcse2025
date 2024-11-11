@@ -1,0 +1,1741 @@
+<?xml version="1.0" encoding="utf-8"?>
+<quiz>
+	<question type="description">
+		<name>
+			<text>TSQL - 00 - Introduction</text>
+		</name>
+		<questiontext format="markdown">
+			<text>The following materials describe the mechanism that automatically validates Transact-SQL statements on shared Microsoft SQL Server.
+
+Database: `bookstore`.
+
+SQL file: [`bookstore-create-insert.sql`](@@PLUGINFILE@@/bookstore-create-insert.sql)
+
+Diagram of tables:
+
+&lt;img alt="" class="img-responsive" src="@@PLUGINFILE@@/bookstore-diagram.png"/&gt;</text>
+			<file name="bookstore-create-insert.sql" path="/" encoding="base64">RFJPUCBUQUJMRSBJRiBFWElTVFMgQm9va3MsIEF1dGhvcnM7CgpDUkVBVEUgVEFCTEUgQXV0aG9ycwooCiAgICBpZF9hdXRob3IgSU5UIFBSSU1BUlkgS0VZLAogICAgbmFtZSAgICAgIFZBUkNIQVIoMzApLAogICAgY291bnRyeSAgIFZBUkNIQVIoMTUpCik7CgpDUkVBVEUgVEFCTEUgQm9va3MKKAogICAgaWRfYm9vayAgSU5UIFBSSU1BUlkgS0VZIElERU5USVRZKDEwLDEpLAogICAgYXV0aG9yICAgSU5UIFJFRkVSRU5DRVMgQXV0aG9ycyhpZF9hdXRob3IpLAogICAgdGl0bGUgICAgVkFSQ0hBUig1MCksCiAgICBwcmljZSAgICBNT05FWSwKICAgIHB1Yl95ZWFyIElOVCwKICAgIGdlbnJlICAgIFZBUkNIQVIoMzApCik7CgpJTlNFUlQgSU5UTyBBdXRob3JzIFZBTFVFUwooMSwgJ1VsbG1hbicsICAgICAgJ1VTQScpLAooMiwgJ0hvc3NlaW5pJywgICAgJ0FmZ2hhbmlzdGFuJyksCigzLCAnSHV4bGV5JywgICAgICAnRW5nbGFuZCcpLAooNCwgJ1llbicsICAgICAgICAgJ1VTQScpLAooNSwgJ0NlcnZhbnRlcycsICAgJ1NwYWluJyk7CgpJTlNFUlQgSU5UTyBCb29rcyBWQUxVRVMKKDEsICdFbGVtZW50cyBvZiBNTCBQcm9ncmFtbWluZycsIDYwLCAxOTk4LCAnY29tcHV0ZXIgc2NpZW5jZScpLAooMSwgJ01pbmluZyBvZiBtYXNzaXZlIGRhdGFzZXRzJywgNzUsIDIwMTQsICdjb21wdXRlciBzY2llbmNlJyksCigyLCAnVGhlIEtpdGUgUnVubmVyJywgICAgICAgICAgICAzMiwgMjAwNCwgJ2RyYW1hJyksCigzLCAnQnJhdmUgTmV3IFdvcmxkJywgICAgICAgICAgICAyNSwgMTkzMiAsJ3NjaWVuY2UgZmljdGlvbicpLAooMywgJ0lzbGFuZCcsICAgICAgICAgICAgICAgICAgICAgMzAsIDE5NjIsICdzY2llbmNlIGZpY3Rpb24nKSwKKDMsICdBcGUgYW5kIEVzc2VuY2UnLCAgICAgICAgICAgIDIwLCAxOTQ4LCAnc2NpZW5jZSBmaWN0aW9uJyksCig0LCAnRnV6enkgTG9naWMnLCAgICAgICAgICAgICAgICA1NSwgMTk5OSwgJ2NvbXB1dGVyIHNjaWVuY2UnKTsK</file>
+			<file name="bookstore-diagram.png" path="/" encoding="base64">iVBORw0KGgoAAAANSUhEUgAABDgAAAEbCAMAAAAIzsSCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFNUExURQAAAGRkZAB41zq++P//////+JCQ1wB43pDq////8mZ41wCQ7Nv//9vq8maQ3gCo8rao1wCQ5ZC+8tv/8tvU5WbU///U5QB45bb//9vq+Nu+3mao7P/q7Dp45bbq/9vq7GaQ12a+8v/q+La+5Tp41wCQ3mbU+Nvq/5Co17a+7Dp43tu+5Tqo8rao3pCo7Ga++LbU+JCQ5Tqo7JDq8pCo3v/q8pC++NvU7KCgoOXl5bZmAAA6kNuQOgAAOpDb//+2Zv//tmYAADqQ2//bkDoAAAAAZrZmOma2/zoAOgA6OgBmtmZmAP//25A6ALb/ttvbkLb/2zo6OmZmtmaQkDoAZmYAOpDbtpC2kDqQkJCQZmY6kDo6kGa227bbkPDw8DMzM///ANu2ZraQOtv/tpSUlGpqavb29kdHR+Li4sPDw+zs7M7OzpBmANuQZgAAAO3thKsAAABvdFJOU///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP5WdtUAAAAJcEhZcwAADsIAAA7CARUoSoAAACSoSURBVHhe7Z39vyO3VYed4BDabmhaSt8I0ELKS2l5bSn4emvfvXebNNzbTULSQEgaliaBTaD//4+cc3Q00oxnbMmSRrL9fT6J77x5dCSdeTwz9o4WvwEAgEggDgBANBAHACAaiAMAEA3EAQCIBuIAAEQDcQAAooE4AADRQBwAgGggDgBANBAHACAaTxzPgdNA+6sWGgW4RDQH+uJ4HpwC1cWhcYDLA+I4YSAOUAuI44SBOEAtII4TBuIAtYA4ThiIA9QC4jhhIA5QC4jjhIE4QC0gjhMG4gC1gDhOGIgD1ALiOGEgDlALiOOEgThALSCOEwbiALXII47fWi5f+G2dBrNxkuJArpwFB8Xx4u8sl8svfFHnJkAyVKEVcXzpAeUI8cJLv6tL9oBcOQsOiuPLkhIv69yQr3z199gpSIYqtCYO4mu6aBrkyllwUBy/L/nwdZ0bQCvlZATJ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</file>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>0.0</defaultgrade>
+		<penalty>0.0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 01 - simple SELECT</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Most of the tasks are about writing `SELECT` statements.
+
+From `Books` table select `title` and `price` columns; order rows by `title`.</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   title,
+         price
+FROM     Books
+ORDER BY title;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1             Ape and Essence  20.0000
+2             Brave New World  25.0000
+3  Elements of ML Programming  60.0000
+4                 Fuzzy Logic  55.0000
+5                      Island  30.0000
+6  Mining of massive datasets  75.0000
+7             The Kite Runner  32.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 02 - simple INSERT</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Question may also ask a student to write e.g. DML statement.
+
+Insert into `Authors` table a record about Verne from France with id equal to 10.</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>INSERT INTO Authors VALUES (10, 'Verne', 'France');</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>   id_author       name      country
+1          1     Ullman          USA
+2          2   Hosseini  Afghanistan
+3          3     Huxley      England
+4          4        Yen          USA
+5          5  Cervantes        Spain
+6         10      Verne       France</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+__testcode__ = r'''
+SELECT * FROM Authors;
+'''
+invoke_cursor_sql(__db_code__)
+invoke_cursor_sql(__student_answer__)
+print(invoke_cursor_sql(__testcode__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 03 - cache results</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Suppose the student sent e.g. incorrect solution. If the student does not update the answer, then pressing `Check` button does **not** evaluate the query again. In this case, the same results will be displayed.
+
+You can verify this by running **a few times** the following Transact-SQL query, which returns the current date and time:
+
+```sql
+SELECT GETDATE();
+```
+
+Note that the result is not changing.
+
+After testing, clear the answer field, enter the query below and continue.
+
+```sql
+SELECT   title,
+         price
+FROM     Books
+ORDER BY title;
+```</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   title,
+         price
+FROM     Books
+ORDER BY title;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1             Ape and Essence  20.0000
+2             Brave New World  25.0000
+3  Elements of ML Programming  60.0000
+4                 Fuzzy Logic  55.0000
+5                      Island  30.0000
+6  Mining of massive datasets  75.0000
+7             The Kite Runner  32.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 04 - timeout</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Queries have limited execution time, usually from a few to several seconds. If the time is exceeded, the query will be aborted and an error message will be displayed.
+
+You can verify this with the following Transact-SQL query that tries to pause for 1 minute:
+
+```sql
+WAITFOR DELAY '00:01';
+```
+
+After testing, clear the answer field, enter the query below and continue.
+
+```sql
+SELECT   title,
+         price
+FROM     Books
+ORDER BY title;
+```</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   title,
+         price
+FROM     Books
+ORDER BY title;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1             Ape and Essence  20.0000
+2             Brave New World  25.0000
+3  Elements of ML Programming  60.0000
+4                 Fuzzy Logic  55.0000
+5                      Island  30.0000
+6  Mining of massive datasets  75.0000
+7             The Kite Runner  32.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 05 - editor</text>
+		</name>
+		<questiontext format="markdown">
+			<text>The editor has built-in Transact-SQL syntax hints and is activated with `&lt;Ctrl+Space&gt;` key combination. This can be verified, for example, by writing the word `SEL` and pressing the aforementioned key combination. The editor does not suggest table names and attributes because it has no direct connection to the database.
+
+&lt;img alt="" class="img-responsive" src="@@PLUGINFILE@@/editor.gif"&gt;
+
+After testing, clear the answer field, enter the query below and continue.
+
+```sql
+SELECT   title,
+         price
+FROM     Books
+ORDER BY title;
+```</text>
+			<file name="editor.gif" path="/" encoding="base64">R0lGODlhrgEBAfcLAAAAAAAAIAAARwAA/QAA/wAB+wAgbgAi/wBF9gBGlwBM/wD/AAEg+RERESAAACAAHyAA/CAA/iAB+iAg/SBv9CFuwSF2/yMA/ykrLy1pxzExMTIzSjIzTDJJfzJknzMzMzNLiTQzZUF3zkVG90WX7UYAAUYgb0ZLVUcA/kcA/0d8zkkyM0qAvUsA/0tL/0uIzEuj/kwzMldXV1mH1V9fX2QyM2eS1mhsfGh1h2h2oWh3qGiXw2icqGl2lGl2lmmXo2mcz2pqam0g/m4fAG5u+250h27B7m8g/G9vRm/B93GY3XUh/3bQ/3h2onmEsHt1p3uBlXuHun9/f3+83IFJM4ePpYeq3oiIiIlLMoqRqIrM8YyFh4yFo4yMjIys5Y2GsZGHqJGHuJGIiZZGH5ZG/pbt7ZhGAJhG/JmZmZqhvJ5kM56ASJ7c3KKFk6LV7aP+/6RL/6ioqKmHlampqamyzqpqMqqJS6qz0KrA76urq6vk/62tra3E6rnt7brE5byASbzc3b6+vr+/v8FuH8Fv/MHs7sLtmMT//8nW+8yJTMzw783NzdD//9F2/9Kqk9LS0tLu7dPT09Pg89TU1NXV1dbW1tfX19nZ2dufY9vb29vcn9y8gNzcvNzc3N3d3d7e3uDg4OGxluH//uLi4uPj4+Tk5OXl5efn5+jo6Onp6erq6uvr6+zs7O2/oe3Bbu3C+e3Vsu3sw+3s1u3tlu3twe3u9+6XR+6X++7s9O7u7u/v7/Dw8PHMifHwzPHx8fLy8vPz8/X19fb29vf39/j4+Pn5+fr6+vz8/P39/f7Q//7+/v7/zf+j///KqP/luf/+5f///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFBwALACwAAAAArgEBAYcAAAAAACAAAEcAAP0AAP8AAfsAIG4AIv8ARfYARpcATP8A/wABIPkREREgAAAgAB8gAPwgAP4gAfogIP0gb/QhbsEhdv8jAP8pKy8taccxMTEyM0oyM0wySX8yZJ8zMzMzS4k0M2VBd85FRvdFl+1GAAFGIG9GS1VHAP5HAP9HfM5JMjNKgL1LAP9LS/9LiMxLo/5MMzJXV1dZh9VfX19kMjNnktZobHxodYdodqFod6hol8NonKhpdpRpdpZpl6NpnM9qamptIP5uHwBubvtudIduwe5vIPxvb0ZvwfdxmN11If920P94dqJ5hLB7dad7gZV7h7p/f39/vNyBSTOHj6WHqt6IiIiJSzKKkaiKzPGMhYeMhaOMjIyMrOWNhrGRh6iRh7iRiImWRh+WRv6W7e2YRgCYRvyZmZmaobyeZDOegEie3NyihZOi1e2j/v+kS/+oqKiph5Wpqampss6qajKqiUuqs9CqwO+rq6ur5P+tra2txOq57e26xOW8gEm83N2+vr6/v7/Bbh/Bb/zB7O7C7ZjE///J1vvMiUzM8O/Nzc3Q///Rdv/SqpPS0tLS7u3T09PT4PPU1NTV1dXW1tbX19fZ2dnbn2Pb29vb3J/cvIDc3Lzc3Nzd3d3e3t7g4ODhsZbh//7i4uLj4+Pk5OTl5eXn5+fo6Ojp6enq6urr6+vs7Oztv6HtwW7twvnt1bLt7MPt7Nbt7Zbt7cHt7vful0ful/vu7PTu7u7v7+/w8PDxzInx8Mzx8fHy8vLz8/P19fX29vb39/f4+Pj5+fn6+vr8/Pz9/f3+0P/+/v7+/83/o///yqj/5bn//uX///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8I/wDnCBxIsKDBgwgTKlzIsKHDhxAjSpxIsaLFixgzatzIMWOnjyBDihxJsqTJkblSqlzJsqXLlzBjypxJs6bNmzhz6tzJs6fPn0CDCp1zsqjRoyKFKl3KtKnTp1CjSp0alCjSq1iTUt3KtavXr2DDhrWatSxSsWjTql3Ltm1UsmbjmnRLt67du3jHyt1bMq/fv4ADC4YJl2+nTSs2TDE7uLHjx5C/FpbLiUqHNYoZR97MubNnnJPjqmHR6U/msp9Tq17NOfRe04tRs55Nu3Zd13Jha7bNu7dvqrjj6pb9u7jx4z2Dmx2eFbnz59BfKi/LHGv069iPT89a/Wr27+Bpb//H2v1s+PPoN483+ueD+/cdAFlPT78+4PWGjdrfz58u/vwn9SfggHoBaBiBCCYo1X8GkqTggxAOtcuEFFZo4YUYZqjhhdB06OGHIIYo4ogklmjiiSimqOKKLLbo4oswxijjjDTWaOMcG+ao444W2ujjj0AGKeSQRBZp5JE14sjjkkz2iOSTUEYp5ZRUVlmlkk1myaOVXHbp5ZdghlkkllqWqaGYaKap5ppsXmnmmxm2KeecdNZpJ4lkwqnnnXz26eefU+ap55uAFmrooYi2KOigZSbq6KOQGrooo1lGaumlmKo5KaVMZurpp6BCuSmnW4Zq6qmoyjgqqTqm6uqrsI7/uCqrG8Zq662ozkprnLj26quluu7K4a/EFltosMJWaOyyzNaJbLITNivttGg+Cy212GbrJrRLauvtt0Zamyy45JZ7I7fdmqvuuiyKKyy78MaLJ7qlymuvvO7ueu++8OZLK78Am+svqwEX/O3ApBqsMLYIc7rww802TCnEFBcrMaMVZ9zrxYNq7HGsHO/58ci50rsjySiHGjKcKbec6cqEuiwzpDCbOfPNidbcKM48A6qzlj0H3efPlQptNJ1EN3n00m0m3SnTUFdrcqtRV/2l0+larfW2U5+59ddSYl0v2GSH23WtZadNpNgnq+02kGxT/fbcNMadI914q3q213n3/93u3rz6LTiKdqM9+OHzAj4s4oyDWDjfjUf+eOCRNz45hpVXfvnimSO+uZOde64456EL/rmypR9+OoWpqz466K33vXq0sfs9+y612/466rnjfXvvef8OPN3CD/928carjXzyZS/PPNjOP7919NJbTX31UV+PPdPab390994LDX74PY9PPs7mnz9z+uq7zH77Kb8PP8nyz/9x/fZrjH/+Fe/PP8T++9/CAihAgxGwgAE7IAL5pcAF3quBDsTX7lgXQZlBsILsuiAG1aXBDZargx4EFwhD6K0RkjBbJjwhtVKoQmmxsIXMeiEMjSXDGRKrhjb0FQ5ziKsd8tBWPvwhrP+CKERXEbGIJZsg7pBYsCMyUWVKXOITGRjFKQLMiVZ8WRWz+MAtclGCSvyivbAoRpp5sYzrIiMac3bGNX6wjW4UIRzjWMI50hGFdrzjCvOoRxfysY8x/CMgaSjIQd6wkIbUISIT2cNFMhKIjnzkECMpSSNSspJJnCAmI3bJTUIxjJ4kJChDechRklKRpjxlI1OpSkiyspWTfCUsLSnLWWZyd7a8lRpzyaVd8pJruPzlq3wpzLB1spiSOiYyfabMZfqJmM48EjSjOaZmUtNO07ymkLKpTbhZs5ty4iY4z1XLcR5KnOacETrTGaN1svNF7nynor4pzzDFs54quic+CUe7z312SZ/+LBFAAyqrfhKUSgM9qOMMqtAoJbShHXooRCXaUIoq1KIHxShBNRpQjvrTo/sEKT5FWk+SytOk70QpO1WaTpaa06XjhCk4ZdpNmmrTptfEKTV1Gk2eOtOnywQqMoVaTKIK06i/RCovlZpLptrSqbOEKiyl2kqqqtKqp8QqKbUaSq560qubBCsmxVpJskrSrI9EKyPVmki2GtKtg4QrIOXaR7rq0a53xCsd9RpHvrrRr2sELBoDAgAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACw4AAEAAgAVAAAIDQABCBxIsKDBgwgNBgQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACw4AAEAAgAVAAAIDQBzCRxIsKDBgwgNBgQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACw4AAEAAgAVAAAIDQABCBxIsKDBgwgNBgQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsOAABAAwAFQAACG8Ac+VaQLAgQQAABBo0iFDhwoMJBz5c0FDiw4oTKUakNQQhgAoQc80qYaAQwUEkNOYaFMDIxYSDAKRc2HAkAAFlGEZcEBPhTIwEbSZQaZGgmZZACx410nCMS4KuHAxtyNGjzJBFdTp8uZXmzokIAwIAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALEIAAQANABUAAAhVAHPlWkCwYEEAAAQaXIhQ4cKDCQc+JNhQ4sSKEykmnFUCoccEGnNxBPmw4ciLG0uQZJhypUGTHT0CqBDyZMmWKEWqzGmTpU6ZAEhizDg0p8WbDlEGBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsTQABAAsAFQAACEoAc+VaQLDgAgAABBosiFDhwoMJBz5sKHEhxYcQZ5VIMBGARo4WPW7s+JHkyJAlUZ40iDAlS5EgX7pkKBKhTY4XOzoMufNlT5oBAQAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACxWAAEAAgAVAAAIDQBzCRxIsKDBgwgNBgQAIfkEBQcACwAsLQAVAHYBugAACP8AFwgcKJCVwYMIEypcyLChw4cQI0qcSLGixYsYM2rcyLGjx4UEQ4bUpaxkSWQoU6pcybKly5cwY8qcSbOmzZs4c+rcybOnz58/TZoUSVCXUZTHkipdyrSp06dQo0qdSrWq1atYs2rdyrWr169gwzJFOVSk0Uho06pdy7at27dw48qdS7eu3bt48+rdy7ev37+A3ypFVnKkrlyREClezLix48eQI0ueTLmy5cuYM2vezLmz58+gQz9esKu06dOoU5+ORKxYUsLKBhrNhVi07du4c+vezbu3b9ukVQsfHimYMGLGjsEWOJtV4t/Qo0ufTr269cvBh2tfvetXMGJJCy//OJxL1fPrv9MUQZ/ZT5E77OPLr559+/ZIq3QBE+aa8PjDrKRy3ny5qUcgZe7Bd+CCDIpWn33EnbLKLt8pV9Jsq6Ay4GJ4ZOBhBngs5sWHH3qxWAYzPHZDAyy2SAdjJ7SIgWIYtGjjCZoZ2OBjCe7o44/YQWhfJKSgkssvwyR34WEZbojIiEosJoKIGZj4GIoqNvDiYywuRscNjFWhZWc6AqlYj2amqaZiDwqZWiSgnMKKL8IoqQx5qpzipAhTPjailY5h6diKWzYWo2RiFprjeoplUQQUi91RxKRZLAYFo2cWkQaai5Xp6KRpMKappJMqqNikqJq65qo7tunmap+U/6IKhf3dSVuee2YA2Z+QCdoYoVziGFmiZDLqqKnq+XFqpYhIimwRymraWBqQIvJopsxaO6liySLiXqjevsfquA26+mppkXhCyqzB1Iqnno6N6CuVgDY272LANiZmFYiOyZmB6qkqrWKSKmtttlAwC0WoBSOSRaVlItKttdWGC18WFXNK7sbxmXtuJJ2QkgqtFr7rpGIifMiYvCSGqNi9iq1oYwOK7duvopmpFzBjDWeqoKM+NwqxtAkjAkXFFi/72MBJc+w0eh6bRsOQnYySii7tlnwrvJHJayWvV6Y4qL9hNsDvsGQvOqnB3KLqtoI9UtsppAtXurDR2YYLbhF5L//GtMZPBx5d1LvQYPh9VV+dNWEmU5ZBn2AHKvavaStGRwPCQkbsv+tdynbPjxV9d9tGu2ctfEUvhibfS4PbtOCw/xa14bRrB7LVWLu79cn2Ql5lr5Mzlm9jNd5c7KmYAs4ztNBG+p7dDUdcJuuOpe6wuLFnz5vHtHdPXOK5a10e14z1qZgSvz+ZvuRZ4mx5l5aDudjmm+noXsWOsu0YpYy5J656mKLet/zWt7Ypi1rY054Cb2Mu73lPNbdTnO7G56QOkWhlJPIQoDIoKJnZSFE1YtGMyua+y5SJVJ1yG9KupyptZQppbxNVARvFvwQu8IafcdUDC1e7N4FvcbaiIA7/QQO0IRpxTTo83Gl6iJoIho9xuztiZ5gmxSqWSzVKRE0WV/PDCeLKipk5GhjHuCAdDmdqPsQdEBtHxslMaoVtjCN9ziUcJ64xinLMox7LSEcIdlF8uBKKIAdJyEIa8pCITKQiF8nIRjrykZCMpCQnSclKWlKRhBOSHb2op0t68pOgDKUoR0nKUprSk5mE0CYB2clTuvKVsIylLGdJS0amkmpq5GQkasnLXvryl8AM5lD6mEYJsnKXwkxmLFFxhWZeARW0zMMVBKHMaoLylojL5TGtyc1RMjMPp2QmMgcpTWp285yRXMAi1snOdrrznezcxSqhSEFCSoJEkjAJHzjI/wdlxGFmLXoEIu9pBUNqoAEyEIoUGqABkzyiAXEQio2kUBIZNNQk/xSoSVhEUUEutEUYBWhEISmIZ4bzCuNEp0otqU54utSl8vwjPQMpyH0WtCQq0GcG+mnQhC6SoIV86EIVytCRPnSkC/WpMqQQUYsKJaMhlcJFN9oAjSrjov8cKSVL6kpxrvSrlWzpS8caz3kGkaZCUUFOCblPnhZSA0pNJFAJKVVlQNQkC5WCT4+qDKES0qkhtaoMZPBQwTagkFm1JFcFudiSTLMkgkCDMpxpTpOUtJnmlKYznYlMzaJ0kJe9AjhNgtLQgjWZYiXrWGOqzZm2Mq0ZKGRbDwlXRv/OdZAaoOhg8VrVqvb1rjI47F+n6k/fluSuuS2JXwmZWElGYrPOHG1jJ2vOy0LzueNEg0mVIQholsSrhASvSbRLWsk6VrQlQYN5T/vL1KoWpmY12SD3mQEbzHentI3rQDNwU0EWdqnCBfAjpEBRvmqAuEIBbEmgWtyKYvWuzIXwVq8AWgqTtrqfdaw5n+vdQYpXkB/msEmw69j1Tpe9vHTve9/JWmO6NqWw9ZBQ6ItPQdb2p/yl60X5KmC7/jaiDC3JR4FLXAbvtrgCXehIW/TgmVnVkSfmroU1DNkpU7ckeVivhzO85ZRKU5CPvXKVUdzeFa82vrs7JH15Otue2jb/x7hV6oGF7FsZSMHAxOWrgpF83I7aNaHNdfCCJTzJKE83zIc2JxpGG14ug9jRWQbzaMMsZTL7UsVmLqtMz/paQ2ZgrW1+q34PeVuHAtS3CxXoIzSg5wD/WBl7huo/AfpbP8P6wVottJXHfGFeU1kZkS7kh4Xy4WD3WsyVtnSKMw3fTcsXkZ8uSagJeWNFlprOQvFrqkuigcQGutVEFXRIIzpnkwA20Lqu8IgRbWV2d3iQlH50SkVcEnpTOsrKhiWmmd3iJ3IaxspYa0msgF9lTDvOb+6vSarN7YZu258HHWlwjXrX5S63Abb+82+nem5CSzLKJH4uu4VC6WZa9t3k/200jNVLWkbfe9f51jez4dnvO9ZTkPck0Yz5aeNRGzLnJLICj3k7YOPaVcKzBqlybTRSBps7wAdtUUeT3qJcNxLfpkUDhkleWWVoF7Pw5ux5oSuUr8f75TGn5b4zXXNdpv3tcI/7K9du5rZvU+54z7veJUn3Fdv9xXsPvOAHP8i+v/fv/ya84hePd8OrFvHPZrzkJ49ix5MV8mmmvOY3f07Ln9nZmee86Edf5pm7E/M3J73qVy9z07cT9Whlvexnf03Xvx7Nqae97nefTttrurWJ5/3i8Y1I4scy3qf1/Eth32mTAD0D+ZQ2z6luoyfbE86DHPKoJ7p0rUYckafGOP+AZ7bkAD9UuNSX8PlZZOpc1zbqM/N5uqEM81kiH6zKbzbwI6/T/gr84D2XcNQWYEE2aEp1Z6/WY4s0VNSmXyyCVOxXXFZHZxLnW0N3VXHldKBkfIbEga90f1+VfzSHe7GHUwJXUwUnagIoSE53cT7HV+iWSAyIcKamV9zGgDHYZ0IxZxfIcBr4SMzkTKQFXSZnEp7lckRoZaFVWVpXTiLXYWbXYZE1WWAnZUTYdSolgixGgs0XcLHFVinYgCu4gwg2Zzn4auLXSDMYgKZWWHFAWL6Vgw9HZ4/QgxlodEAYZqjAaMnGWMj0TUKBb1+mDMykaFoXWRQWZuglZd5lXcr/QGLHVnnE1ESgl3vSV1/35VZiiGMKp4MJ1lDBFVQQxXAL6Go7GFeFZWcyEAf/lYN7hmR2+FR46Ej0pm6INIi+ZhLitVjkVVK7hF7TtWhVNk5nh4X4N4lctH+hJ0gq8CE7l0HRt3Dyd32daFcZF4qhSEjrB0lreIqy2FcH9VsClX4C9YpZFYuBJUlB+G6WVX+MpYQwN10iJowlBU3oJYxGaF6JxnWWhk22U4kliIIFB4DeyImDlIbmBoqm2H7lpoYLyW13eIOv5ooIllHoOGjW90ib9Y6FRISBCHOetVnQRI8mhV5JqI/t1nUguFL++D3KaImEFG0GF4Y0aG3YJ40B/6hk2nhXCOVI3YiTIeVfdyWHpjhUF8lnlSRyH0lIV2Bi8GiLg0SS9ghO+AiVyHaVyYeMpsGFADdIMkmQQGmT1TiHfPVQLziUCKlIPwmR4ZZtaDmBy8WWcWmNspiRkVSLtVhvXCaP27Vu7Jhe4FSPkwVOxsaRkeh1fJiVWsl8AHeCBMdmNMmGYklIBahxdHaAqgZhecVIa4mBbSlRFHWGwaVR2QhrAVaaGPlx44SLhLiIuriImkVsrjle9SeVg9maiZmL8SZNf8mSi8mYg/R8X3iJJKKJnoljGdRf8Jdx65eGQxdcGWdI3ThkVQdgBxmaIsVbLIJgwbWdg/SDjuRZWv+ml0JIntN0YiJXhFi2WaNlm64JXci0j2VHWYqplVwpfPiZn4jUknUEkF2onwCKn/zpRy8ZkAF6oLo3oMXkb/y3d915anaJoBI6TIt5nxN6obKnoJRYoP+JoR5KeRqajC4WfB9aopoXolvpn11poiwqeCiKLiraoo+Ul+dUmCX6osApo41Eo91kox+KoxaKczVGnB/CU9RpdA8aUERligQXjRI1M03mZE9qa9Rnaz35ndlJi32JTj7qoUAaoyjofzplnNjGbbOYlgunkybRpIYEngU5aHWVjsXlZ1fKgh43o1tao+P5o78ZpCahVrIVmdYJp4KEpuJ4ZAMHfW06i5//WVFwaFVOV211KosTqKWNqJ5e50ze9Vxd92VV+V0ZFoSYumii2nWh1ZQy+qUc2pjDiYJkOqgSWKjRWVf/JBRsiliM2n2FSm5+FqlKNanjRkkiVlIqKV3bxXItB2zjyUzQ5Ivr6V1fd10ZhotdiqGqOqINOpOY6Kp0RYALaajJNXS3GmERao7CpWAMNofAOmiVuqPPxKlLOV7GuqkmNYVX9ly/5ljtmZKtuZp76qV9CqaD1IwyplPQSGct4nNo+l/HqQzjiqV2+YNHxmDUl2vrWlxSqqXEKkifGmyFiGXmha/MJFlcBYkgm17/Ol3VeqHXyqDLeF8DKagMeFAZiaYz//hwD2undmmoCHmlDGaWG+VzZ+iuzQRjJ5mPjvWHzyQIXDWFeTmIyGqYJ9uiLWtzBipIXymzwgW0smpjANVROVuX2beQ6Yd+RvdwFzu0jMRh0pRSnypIHIavoBoJeYAKaEC34PS05hW18Tq1LFq1bgdtoKa1T2d9admDFxW2ctp+gxRraGlVM5i2d2qpmdphK+t1gpAHfIhSFJa5eWBOxYiyhERvI5uqAbuqA2urMfuqM8i1G2Vr0+lbipuan0iZGdeTP1unktuua7td6gmIheSItAlOQRif24WLfEtyk5a8fFqhAut8GfSMxVmmFVVnACVQpOhXBHewR2cjUcp0Ev97WBX7pDbiU+nHu4ZEus3UYfApm+PZtunVl6GlZcwLqutrr397utj6sjpKSh/bv/qmvy4LkwAcSh5YwJ8EuHeHwKJksgxcSgoMeA/8SZe1ohOcwAJstR16wRzcTRFMoh0cwp2XwYErwiZsTR+crSe8wpdGwgvMwjDcSynMv6bkpoJkA0VaS50ZSTsMSYaaYD/soZdrSy4swbBkw8EpqNL5kNzIxDzsxD4cnUAsxYb0irQ3xIs0wwRcSkgspK+6xJfUw48kxo4UxJJkxbOHxZhUxCDsSl0sFPf0xYVExqX4SXTMSGYcSWgse2qcSFp8tUO6VA0ldYvUnHioc16MpSz/8quntqR5zFvda2vNaX1Jd4CnWYAKxmMQNWSgyclP94CNS8i/BVDEVX2B9aCE+nSPNIX0qZd7WJ72i6lVVoXmmZinul5op2HpmVKC8Mf/ua0Bp50RpbbBipRzhcOJTFQaNalrmY1zOcffF2gch6QQFgcQWL1alckQ5p1XNVXcnL0eV5qEVbt22lFqOms+VW4NaZlXV7SPmGEi154o2Vl9qV2NeKne5ZrUisuV1VjlKZjAdgW+DHBx3K3eN41hyWA2cII3WdCgubg/OXRkrKbdvJMddYGQTNG3xrh2NVUMVpndiNGkSM5vWtFzCskK+MaE5KyAqZf9bGFnN1o8imwi/yZexpbLk7VeXiVOAx2TkbmGe8zRSHmTKmBf0KuJLShhP7mGbwzUTJyGnZlX4TxVmuxnVY3SQl298veKc4mDk7tcQX1IKhuyjqaXXmZeXVqLXjXWkejPuVlpPU1IBKuo1LvRhzR0UCWcHmLUJeHQCEt+WP3JGQvGWH2kHbXHQ2Z92rxkVr3NfhbSdzpk14hgF7htQwtYk5tIbP3OAPe0Fva2s9y+m41sbk1ImhXXhZRz0QfUCDZIeG1cN5nESJ2rdV3baulqgEXRUM3EQ0WzJH3VukqXtY3RO5iWXE1oXt2uGVWrJGVlwebAriwUwZbWeZqLN/3SyapuqJ3aBbeGj/8s3FdlXEVNamFI3ItLu5zpale6zml4hgwYgeIGYIyN1QgJ2ejLcD/JcDemtrmFqPTHj5zNlCqJYX85bNHdmvxMm9kNt8+03dLWX7c6g6hZxefq2zNZjUctSKMpiqMWjg6pytWbmQhp4dZcpg81Vdv2UfNda68b2Am4cDUoixnXXA+nth8VoZo9ZbgI3VXmXaypnt31rEy5vOuFrF+34Bwr0GyswttbsH9dmYkUdXdmdMIZfRzUqtRZkTYCxAmbSM1ZhiBl3F1OvbP2yYNcftXZ4tTbyEuX5o7s0VtezDvZ2ox0y0LB46G9p2Znqpul05qKv1Q4TXJ7m4WUBw6OSHf/3KLf3U3P3M57d+iHlOgsuujcJOlWKXeQTtgdTOnVRMw5/uhLTsOaTr6kjE5JOti+xOnCpOITBurOi7oxHOu1lOmyXuukROu2nusY/Or7u8W6/ussFeq+7klhXUg47CFyLHcGDuyXhOuXVOw/p8R4t+zMHlbCfrWfBO3cnexxR+3VPknObknafn3cDnfe/u3pdO0dGsh1JcqIZFHrZ3WIDMc0uclKp5GRYFryWqof2Uy5uZH9jnzt24dixrawPHbuaOuQDswCx+qebpqoFmDH3KrK4NfHVYDrzEjNtLdFvr4BnqnltW6MNvIW9r8mn2HyGc+i25qZlfCyfugWz1sH/51IG56ACy0UDV3vcI7jhoSqB55yVIaXGQba/dqOfgteKZ/LhbmSL6/uXYnsY0vSVUzVEEbUfF3x9d7Y6NuRlQVe9cuaV7bsfGmPXY/y/PrxYNZ1RF/rmT7X0cjaNE/1EaXXwIz1xomQ5o1IlOb1/2qj6DXTIampyIb0Z8/josqe1Y7rql3X0L7YJRHbyazmL67xZY9MXz+ejyX27rj3Zg/geM70v+7sDu3dVPzbEDbe0X73jw3FPY/dK8/gHWZvbz3TVQm/fQivaF92b83sh84HEE7XEs768c1jNpX6XcviGmlO/+t1/8r8C76xWKbgFdas2oVMIVeFeI776B4bTv9PSE2O5d67SI7f19x75VTl5o408K8fla28bgcf0NFlhP4+WeOUdRtW1q8pkonf/en9SwDRQIoyggUNHkRY8IqghA0dPoQYUeJEihUtXsSYUeNGhAt2fQQZUuTIkJE6jUqlK1ixY8iU6cqVS9WpSBWlNOCYU5nAnAt1/gQaVOhQokUfeiSZVKlJlCpZuoQpk6ZNnEYn8uTo0+pWrl29fr2IVOnYkidTrmz5MubMmhRvJmwQV65cDUSxbtQKVu9evn1/iiVLlunZp2qltvWbWPFixo39Ag681KzTtFHZOsacWfNmzhAhRyY5mDLUtVM7n0adWjXXz6BFikZL+vBq2rX/bd+O2No1SNiFLZvGHVz4cM66d+/qXbk0YqMy6lq0kUE6H+IU4zR4Xl0jqivMtSc0vju57MtbnWeUlIH65rs6r2eX+PY7Qe7e5xsM73q84fJWz2NMbz3N2uNLvvnqu6+h/EDb7zf7hvrvogA5I3AvA79DMMGOjkuqweUakk46SQqSoi65BorIuUfkiuOgEDNAaEKDGojjprgQ0kCuRwyS4cSCVnykR+wOmmtHZWycC6vrgpTLoOuaLOjJBmQgskYod0ryxou6E+QKLw1CIw/uvGSooC69zAMhL7806My8CFrTy7a6NEirSK5AJY81D4qzOA5Dmyw2/oAzKAMbClKB/8S4WryuRYiE3NHA9KwgKLqDZCworuc0yG7F7KgkaEhlVgR1RaymzBRUZeDbCUUn4wKVU4KCLChHHFUNFdVV4bsQIy/RIAgNYIP1EhVl7mwLjSsUGvbYK9IkCFpl9KRPK+7KzJBOhcq889lgh7022mU1WzAyD2e7VL2EbnJ0VVwb6tHIFR21IdGCMqC0IExDzW5JgiI06MKbdiS1oP/mdajC61ztlaBGD9LgXVGPrIqghi26otk7jVVG2ToZ2rggZIOV1qAMldE2j2azHRdObvNKuVll3mys3MDO7a9QdQ+6EGB4O6WRIHwNUuFQfXfO1FWEW01I1h+DXlqZCBdtSP/hoCGKmqCIiWS4YoqzKlOZDIVNiNqPxe4uIW0JCjkvls929sE3wyT3z5FwJpToEEe02GufE4oQ4fRelM5ogvZlelaor4YY1xUHihrgHOMyMmmEHgY8yXa1lrjrgL32NeyxZS5IZT7TDBkhPeMsdmbR00a5ZdfZht1k1tGs2+6ymhLUwYcG57tnVgEH2tGhHUL8rqUrdNcghCMf3tTKE391c4MbkJdxzrlW9HOwCxq9bNJ9OrlN2eFGe07Z7awd/c5sFixQ3z78fecLmT8o8KuLrl/AUD3X2vC+1r1RMe5vBdzc1g6COSKpKmvNmxEAHYY9vIRtbWRDSOqcxTFvZRD/Twmhm7jUJzL2PSiEp4HfWPBmHz7kSxlWyEDwKtYjiejPUXw4XkKSh6LHRUlXUkuV4nhowOfUSFHTi9cCtVerqjzJegq0XN+c98PQVStsGEQIFjsYu7BJy2MI6ZKxBKGstoysWy970J3C5ifd8UZ+ykHXQWAYos/RZSI2PNqL+EY46WRqLtYzFeVmxKKntStCSAKd1nykDAYSSVNLE9If/0dAH16pIqxjDhazuKY1OmtPBlkd7sTlrdq5qWNobMiY1sQxzKRQMrybXxzjk8i94E9DXaHZLTfjyg69kTx5g8jF9GJLXVoll8VsZRvdCEs45iwiwgQLMZFJlGNOkzG8/wQUM3/5IIdcLEt2HIo0rRmUao4zMdi8my8HxU1zttOdtEHna9Tpu3fW056qiefuCNNMYN7Tn/9UTD6Xuc9tAtSgB+1La2iglIWmU5vrRGhEJboVhTZUJDSwqD5HA1HzCBAi0ZlORg62RO2Ub6IoJAlGM7oLlWaToBz1j0cjgjiKjNR6JW3fSd+X0pZ+RKUr/cgKuXJAidD0js95IE7ZqVPH6OanLO2pQ19Kz5iiB2kWsamGTMrU3PH0p0Ad6Eap6qK9kchEcXHVQ1RESJ31MV3+24mVtKQocM5LSDKFCJc+6bJutS+UnexryTq2Sj7FqS2mq9YIlZUxgwSWq0MJz/9XVThP+rnIcPaiWNAaCS9BSup4ljJI8kTlNKnNEKnYARUVKfKrbymETWGEE7i2qKcyIqaDsEUbtmCH2PQR5Exluu0HZybYx3IkP1Ht5UPHerirKqpdUHRIEhFYKcwqI4fKSF6/KAg9xalqYFvSmHAZm9jYmc9YWy1vQULI2wyxF3ZdQgxi86LB4ho3MGCVp3IrqzO4DvBfeP1vIYXmQmXw72hwVV7QhKe4dm1WIm6D3RbBJDMEre0gJ5zWsCB82JW9V7iN/TB66xsWZQaVsrLUm4goKTUAs1jAgyOc4bDb3AS3aMHTZfCWXtcWCau3ZOHibWFZp+EdR6vD6mOlmW7/l9MRY0SgJtYvitMVQykarMV4tC6BY0RjpSnYb6dtMAUxVuThgvDHabMwmIjrMvDt9si+/TAJk9xknTwZOSd25pbXc7+0/kzABZaxnrlXZX8VEMzXqyKcFbJmC2trZKojnY9L52YlIxkhIqZzRuws1IO0sCAwlCGiU1Q8guBQy6HlshCDuBOnLc3BD9Zt2Hq8aCuqV7iRaAt3GP3BMXpYjHKC85zFJexMa7rEd45ynl/4ojpq6qh/nrEehcZHP7JVcZQrERN1lBFM1mnNcFqTd0Ip2G6PMk21Wx2wfN0QN4232E4+NqcnAs2viLMo5Xw3QDfdCVKkYhe92+8zaTnM/z5/Bd/59uemPUEKVfw7lmzBdcQlPnGKV9ziF8d4xjW+cY533OMfB3nIRT5ykpfc5CdH+cU/UYqG9w4mq0AFKT5xClBk4hKUmEQkHrFznvfc5z8HetCFPnSiF93oR0d60pW+dKY33elPh3rUpe70SEyCEpfIBChOwQpfCMMYxyCILl6OilKAIuafsPklLFEJtrfd7W+He9zlPne6193ud8d73vW+d7733e9/B3zgBT/4v1viElj/BClQkYtfDOPrYYcJK1JxilGs4hSkAMUnPNEJznfe858HfehFP3rSl970p0d96lW/eta33vWvh33sZT/72HviE6AgxSlW8W9ipP9FGQuwDCpMoQuYn6IUpCDFKJS/fOY33/nPh370pT996lff+tfHfva1v33ud9/73wd/+LuP/FKcAhWr0AUwhFGYBQA/8pP/xS5ysQpVqCIV98d//vW/f/733///B8AAFMABJMACNMADRMAEVMAFZMAGdEAGrL9VyIVd+IVg6D2w+z33i4lVSAVhCAZg8AWQELsRJMESNMETRMEUVMEVZMEWdMEXhMEYlMEZpMEatMEbxMEctEGQ8AVgCAZhIIavc4kM1MBcYIViIIZh8MBgYMImdMInhMIolMIppMIqtMIrxMIs1MIt5MIu9MIvBMMwFMMxJENhGAZiYAnfa781FLuemDiGYzAGYyiGOaTDOrTDO8TDPNTDPeTDPvTDPwTEQBTEQSTEQjTEQ0TERFTERSyGOHxDNVxDNhQ7ZECGR7TES8TETNTETeTETvTETwTFUBTFUSTFUjTFU0TFVFTFVWRFTaTEgojEWAS+g6DEWrTFW8TFXNTFXeTFXvTFXwTGYBTGYSTGYjTGY0TGZFTGZWTGjpDFZ0S4aJRG8HjGgAAAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALFYAAQACABUAAAgNAAEIHEiwoMGDCA0GBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALFYAAQACABUAAAgPAHMJHEiwoMGDCAmyYhUQACH5BAUHAAsALC0AAQB2Ac4AAAj/ABcIHEiwoMGDCBMqXFgQAACGECNKnEixosWLGDNq3Mixo8ePIAc6DEmypMmTKFOqXMnS48iWMGPKnEmzpk2NL2/q3Mmzp8+fEHMCHUq0qNGjG4UiXcq06VFcQghIpTCwVgqpWBEItKrV4C2sWEkQJIS1QJkFZMFKNavUqdu3cGNaZTCQUNUUXQtyPfhVrEGoA4xsHUHQKlWRD+MqXsw4JKEBCPcalFyw78HHgiOnOCywbePPoEMnJKs5b2G8fAn4JQiVQaGEhgl6Fk27NmOrBApMRr3b9EDLBV9F4HwwNmLbyJMzTkvgtNrDlAl+BRt4gXDiu4nPVs69O1HcXaPf//UtEDjB6wqNd07svb37oWQgLxC/lXdl1btdw94sm/37/wDWFF995M1nn3T4GRRfZsXxd1yAEEZo0hnnRRDegeOlttpp1c1H2F3a+SfhiCRiBBVYzoF1oVpdTQfWhmSUdRaI/ZVo442gbYfjjjwSpWOPQAZp049CFqlcLkgmqeSSTDbp5JNQOulQlFRWaeWVWGap5ZZcdunll2CG+WVEu0Bj5plopqnmmmy26eabcMYp55x01mnnnXjmqeeefPbpp5sK7SLon4QWauihiCaq6KKMNvrmQYIO6uiklFZq6aWYZnpoQZFKqumnoIYq6qiOLpDoQJ16SuqqrLbq6qvQmP966gKplgnrrbjmqquhsiIqUK27BivssMSq2eumtdpa7LLMNjvqsYcm6+y01FbbKLSGSmvtttx2iye2hWrr7bjklnsmuISKa+667E6L7p/qtivvvLu+62e89Oar76r29onvvgAHfGm/fP4r8MEIn7qowQk37PCeBO/J8MMUVxxnxHpObPHGHJ+7MLAdhyyyx4pqPPLJB2Ocp8kot6yvyniy7PLM7cJ8p8w050yuzXbirPPP2/Jcp89AF+2s0HQSbfTSxCI9p9JMR62r03JCLfXVr1Idp9VYd02q1nBy7fXYn4L9pthkp22p2W6irfbb136cKtx0u8p2m27XrTehd7P/mffegEMsd6eBF45p32v+bfjiciKupuKMR96m42lCLvnlaFKOpuWYY675mZx3LvnnZoYuOuOkQ2P66YanvjrrgbsOMuy00yn73LXnfvHgkeruO6C8q/r78GbeTjjxyMcavLLJ/258780P/7zw0dc+PfPVW7989r5fz73u3n+vfcmzi896+Oafv3366pOPO/uiow+/5+vPT7/7x9t/ufz6o15///7DH/QAGMBEvY6ALeMfAgGnwAXqrYEOpBsEI/i2CVIwbRa84NgyqMGucbCDV/sgCKMmwhEurYQmLBoKU/izFbIwZy584cxiKMME/q+GIbwhDkmowx2esIc+VCEQ/4PYwiESEYZGPOIMk6hEGwqQek1E4hOxF0UpGrB8VbQiog6YRXbRsIsN+yIYESbGMQqsjGYEGBrT+DImspFia3zjvOIox5q5sY4JoyMezaXHPe7sjn4MWB8D2a1BEjJogDxkvgypSGoxspFHSyQk7TjFST7skZYsFiYzOaxNcjJYnvzk1CQpSm+FspS3OiUqs0bKVVpLla5kFSxj+bVW0jKSlbzlHG2py2XNspdl4yUwOynMYYKymMYcZS6T+cdlMtOUyHwmrH4pzUlRs5pxcyY2q3XNbSqqm970VTTD+axxkjNU4Dwn38ypTk2ls519eic8BafNeQpLnvb8FjvzSZcpfPKzTv7855wCKtDd1bOg09wnQr+p0IWK86AOlWVDI1ooglLUWBO9qJ8sqlGSXfF9HeVXRkOqJ46G1KQdRalGVXpRllLUpRGFqUNlulCaItSmBcWpQHX6T56SVGJY/Km5uChUUhG1qKKiFUiROq5fLZWphVRq/qBqSqcOkKrc4tRVscpNg2yVq0dLCBXBqkmIkJVZCAkIACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsdAABAAIAFQAACA0AcwkcSLCgwYMIDQYEACH5BAUHAAsALH4AAQACABUAAAgNAAEIHEiwoMGDCA0GBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALH4AAQAMABUAAAhkAHPlWkCwIEEAAAQaNIhQ4cKDCQc+XNBwIKwmfRgCkNXGTawvkBztgJirFY4fXLb0cENyYKuVGkueTJkjI8WNHWE5CTnypsKLNltO9CnxYcWhRycmNRoRaVOlT5k6lFp0IcKAAAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsAQABAK0BKwAACP8AdwkcSLCgwYMIExqExrChw4cQI0qcSLGixYsYM2rcyLGjx48gQ4ocSbKkwpMoUxYsybKly5cwY8qcSbMmSZU4cy60ybOnz59AgwoVqrNozqFIkypdyrTpTKNQUToV6ezJoalYs2rdyjGqV4RcMz6To2dZGFGhgIRdy7bt0q8FecXgoMVoxCUL8lpw2CKvXwUNWwCGyMyvXxgOG/kl8AaaYsN5GVdstoAHGDE+9LjdzLmzTLgCe2EBYYeu3YctDjBi2AgxQ8ESYRNe4BriEgJMGrpAvVdjs8yegwsf7hH0rjovdiUyXfRhI9yxB0OU/bBw7cTQJ7bofZGyZTE6rhL/H0++PDTjA5fXbZ6YdvT3s683XKKa4naMY/U4i4JWrfn/ALqFnkDqncbXApKhJp2CEVkHUTIXcBebhBdVJV6AGGaY1YDKMadTRI+5Fxhk3FHnUGGGQQchhdOxqOGLMLbFYYHsxbaAdCbytWBDDj60YkX3xSjkkFzN6OFRFMGRXY6B7chQj6jVp52LRFZpZVBGrvdhkks6+ZqXUDqkZG5TXmnmmT9laSBDcJAJDYQ4egkNk9CEyVd20OzGF5Vo9unnSMYlAtkCICiCpEN4HXagYThCNhiKhl0Hx2KN7fnnpZiKxKFXmXbqaXmbRvXpqKRyFipUpaaqqlanrrnqq7AG/9XJrLTWauutuOaq66259JoLAAD4KuywxBZr7LHIJqvsssw26+yz0EYr7bTUVmvttdhau+u23HZrq7DAZivuuOSWa+656Kar7rrSeuvuu7z6Gi679NZr77345qsvvfD2+y64we4r8MAEF2zwweL6qzC3ACPs8MMQRywxvwtXjGvDE2es8cYcd9yrxbX+8cHIHQDSL8Yep6zyyiynC/Ksf5TciSY1yPyvvAG3rPPOPPeM7Mu3/rHBFPCi7PPRSCfNMdC2Ck30zb3Oq/TUVFc9MNO1qhECG0XjbPXXYIeNLtazYvKBByd7LfbabLf9LNlm2wz1rzm7bffdd2O9yQpb+1prNN6AB24103v37bfagieu+NFAF861wn8vLvnkHQOtxsiYfyB3t5FT7vnnDpNdceegl256vqIvTPrprLc+duqHR12367TXPi7ssdNt++68a4t7170HL3y0AQEAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALDgAFgAMABUAAAhUAHPlWkCwIEEAAAQaNIhQ4cKDCQc+XNBQ4sOKEykmpDUEoccEGnNxBLmw4ciLG4eQZJhyZUGTHT0CIBHyZMmWKEWqzGmTpU6XEB3mtHhTaFGiLAMCACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALEIAFgANABUAAAhzAHPlWkCwYEEAAAQaXIhQ4cKDCQc+JNhQ4sSKEykmdOUAIcIKEHNxJEFwEACQCxqOJDirhIFCKTc6ILmgZQKNImcSNAOApsqOCAWUCbnSJMqYOUnSGiIU58oFtk461blgadOfNKFKxZiR68WIGZFafIgwIAAh+QQFBwALACxMABYADAAVAAAIeAAX5Mq1oKDBBQAACCR4sGDChQ0dKhwYEeFEhg0fUoyocVaJhAGMSFxga0GFgoMAkLBIa0iCg2YElElYcqVBWyoTDpJ50JUDEjp5GvRZIWiZnj9phjxoK2RCjy8NmjFQ6OGgBTYHLdWIM6FQjRgPgq04luNFsgACAgAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALDkAFgApABUAAAj/ABcIHEiwoMGDC3LlQggAAMKHEAUqZOgwosWCEw82vMhR4kKNFTtazGhwo8iRH0sCwCWEgEuXCAS+ivCSAAWCtVK4HDAwZ4EyMiP8bMgypsGZAwnZFHhr6QKlAnMSICFQ6dCVQowWRBo1BYMFRQmSKbDgFQQiMXEdIXI17NEIPVPEbFqQrtkkKIzcQmDWCNGsB7kuIEOgKlmCSPuSoUCGRN+/NQsHfXn4aeWgFG79fDVBQpnHWLUihvvUKaHLZeFqLsPy5kwSf0UP5Mry8C2eBG8vWD0adujApHcvzSmazNfTQGdH8O12a/DaVSU/xY0cZwoKsYHndtrUZeXqcbGHGTz5kGRBk+TLpzw/Pr1B8wTRu3+/Pj6AgAAAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALGAAFgAMABUAAAhBAHPlWkCwIEEAAAQaNIhQ4cKDCQc+XNBQ4sOKEylGzIhxYseLGz2GBOmQpMWFH1GOVFmS5UmGK2G2lPmyYEqYAQEAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALGoAFgAMABUAAAhBAHPlWkCwIEEAAAQaNIhQ4cKDCQc+XNBQ4sOKEylGzIhxYseLGz2GBOmQpMWFH1GOVFmS5UmGK2G2lPmyYEqYAQEAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsdAAWAAwAFQAACEEAc+VaQLAgQQAABBo0iFDhwoMJBz5c0FDiw4oTKUbMiHFix4sbPYYE6ZCkxYUfUY5UWZLlSYYrYbaU+bJgSpgBAQAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACxzACoAOwG7AAAI/wAXCBwokJXBggYTKlzIsKHDhxAjSpxIsaLFixgzatzIsaPHgwQXMFxFsqTJkyhTqlzJsqXLlzBjypxJs6bNmzhz6ixJUJlPZMiOCR1KtKjRo0iTKl3KtKnTp1CjSp1KtarVq1iNDvQZqavXr2DDih1LtqzZs2jTql3Ltq3bt3Djyp1bVuDPSIjy6t3Lt6/fv4ADCx5MuLDhw4gTK17MuLHjx4AX/DyGF7Lly5gza97MubNnwpKVCa38ubTp06hTq1YtOWgx0qtjy55NuzbqycRg2w4MpYhvP57v+C6SZbfx48gR+TxmbJju5H2FAy8NpTj069hNLzcm7PmJBuDBY//ISyc8+Bt8v5/XC15v+QaMpZuunr2+/czKXAfzPr5v+Sp53dAAenk10F95JxTYAICICAjfYvJRZ919FFaYWH7HFLNfXyf0x9d/7PUn4F5VLFjeDQkigsGIEBYx3V7DuciXcL5NiIgfMb6oF30W9uhjYBhqyJ9fIBaYYgMpsndCeUxWsWQDdLSoo3Bp5JVGEXfolQWWed2RZV5QaCnjXjz+aOaZQW6Ynod7FfkdgEXqhcGTdJyAYhVMSkmmjVCEeSOXguFY5Z5nFvpjmt6ZNyB5irq3IF8YYFAiInRgAF+eikX456BWFtFpYUVwCqaNhpZaH6IcsukogAISGGdec07/qiJ6rx6mKY5fdgpcFn76dWWMoiJSpqnEXofqmkQ+quKDiCy614CyrqpnXrjudeWnvgKKSKh8DVvst8Ydu1eHyTJYIoHfkQgli9JmOuaohCIiXK5k9rptsN6Cq+9s4upFrn/KLstoiic2yCx7BCamqbyAXvlib9N5mdeWwOHIbbz7Zixbv3n9+2HA57IXHoPsIoyYxTH2SqNvfW1ZI5nD3TtxjL7Rq/HNn3GM8848G6vfcz0HLTS/Pw9t9NGr6Yz00kxfpnTTUEeNGKI+VW311VhnrfXWXHft9ddghy322GSXbfbZaKetdtc/r+3223DHLffcdNdtd9ht36333nz3/+3334BTHfjghBdu+OF654243Khc4Tgad+fh+BWRLG755XMrjjnceUCud+OVby766GRrXrUM4clgtaINqO4T6lnHwXocVkthnk+ys97AI2Z3vjfopAcvPNemK6NBA1XHIUXVrWsNO9ay05718by/frUGrqPt++eUD+/994In34D0WDef9fNXR5+17dVrjb3a2189+RWoXC3I5IJYHcn8WAMP/v+jM53slpc182ENfVZTH9Y0oIGuvS9t8ePKFfKnjPuFThlooJ9PBFE/ZaAiD1XL4NX8B8ASWq54x9td+bJ3NQSKj3xVe0QDCLi1B2rPcyEEYQg9t78Ocm1/F/Rg9/9MSMTDFU8ZuZvh6hRFQxfijnW8kyEN3cfC3uFQiBTc4BV8EsGtkVCIQSyiGP92xKodr4E+MWALkQe98WFNig6sYtki+MX71Q8NOsya5OYXxC+O8Y97K2PVbCc9NVrNiUh0Y/nQWEM5ko2OQ9QiF69oNcl18It+BKQm6SZInxAyjY5UBiIVuMb2TS+UYusiHq22ygpqEGtXyCMmI7nJWsrNdFKAYQMYacjTsTF9iiyfCq1nNRuerYtA1KIPHVc1DvpEhMrYHy0zactqpq14qAvPFFmXvWzeLpGKgqE3f2lGVHrtfvObYNWkycyrZdBxWVTG5NDgv3S205r4PFsn88n/z35ubp/+DKhABwfQgRr0oHYrKEIXylC1KbShEI0o2B4q0Ypa1GoUvahGI5rRjXoUoWX05gLBw8iPuu2d6gTc/iip0SM+UHarI6AUSmpStEHzbinF2kprik0WysB1GphiUGNoHl2Gp33gIZ8M0JjU06HRdooypTfRmEJFuY51JYWqAVGXPdm1r6pTHFvj4lm3nNZUa6aToSnj0ECY1s51tmviE2WqyF0ycqlpZKBTPTlMYcZwil6NXV99cjzmoRF1GqheYJWxy0HCUGzUlJtZz4o1XFZRrTIIK0zhuECfsrF1iX0dU5daPbwqg33nI2cbTSm+tfYVjqiTAgEDi1q1//mRhNsTBOTwdzV26hCd6aSgb/vHv6pRDrj+NJ0GaKdVxqpVlCSV4WkH+0QYqq91UnCdabGr3adSF5RcWywwTanXYjYQddJNJO8+iTZ7thO3nkNn/ZLJxSF2xWqTZWUetRg6S/rEcTpEA0ttabrdwXSmjN0D8hD8U+mW92q2u5oMadc8Nm5XdRb2LmsT+djxCtaUSjzkeZEnA9otNjy2pSUYq5bbSKY0svIkq37lF89Y/heH9+un5qT7U1FiuAsNHGpQHUxTvkpYic2TrShHe9rlmVarKOZweL+r3piuEbrKeERb+6rVDofttpFsMX4pmOOt5TeH+qPl9nJa5nxqjv+tjF3eUBsQBBlMmLFxIPL6VHvn5vGYyX/m64ZJ+eFCMy+seH3ecsXLvF6CDcwXFLNxKdhFGm+tlRL0oTIk998sthmfb26gG5GcXbVOWMvQHfRgA2u+El/4dXF48ndlaE5Gt7aYVXzf82Jt69dR2WuQZnF8tzhpSZpZxmhe5ysn2elmEtvNGdpPAkVN4TwH1c67U2usExlW8O6Vsa6L9auR+FMNT0+1Hl5t7V7rRvSNj8roLVuwb2zsZkdTxTPWGqbtbW82PxvU0Q4inGdISNmWenzoLbGv5Tpd6dXWgAxkMmHLW9sj//IRgKWyrRvrbfTNVIV2Jqo5uZZJG8vzCsP/HnMIX3lfFi/bnft1ZQc5ze9PW3PHC8ZuY+EcW64msKjii7K3pytxovM1qsUMD003rqiSgtWXRB1mVYNJtkw2znGR0G29Y1zJycUcg7zdtD0vCNwr+lvHAb8aldNL2bYTOO2HDOVQ3U53QKY1xMZ7oU8eMfK6+/2fcLeaDMNjXfNs+O+IF11HE8947y2+8ZAPYOAjT3kiPr7ymDfc5TPPecCFVOhmJKlH92jyv12988SbfDmfaOXTFhmi/o3cgIX4b9RfradxJ6xQaTj4pkLX8IcWsdemfnGq29Cb4ca7rw/vtdLbrdK2/9rd17plCMMV7931JQGVb1qu2bCwWTY+/1B/qbzli6/bYDuz3KAffbapPrtH5rtmkcfZFjr9s1PsfiNvfefVE3p12fNgZJNfZ/dfWTc5sISAtJdOnnN1KJc18+NDWhd2dadczIViuwNy0ZVzh6d/z8N9r3c9XaVC/UdYqjNAWvNJ//c1KBWBNfdsAPZMOLQ/ebRf7LdplLQ/ZDZE8nVvYURZBfYIByZqCuZ6PqZn5+N0TJV/IYhrzOM6JWg840dleuVoYUOAngaDOPZs+3Y1N6hK+yVg/FVsFTh5PKY6PdYAQGY8ciYFSHhAdzVMIDh85sFIUWhDSTR/4Hc2WOhsZOhKPgFjX3hFY2U1ZfZp6mdSoRZnbMhYdf/WZ3mGPAJ4SHXYeqI1fN1EguI3UjQVW2nTh/VWgD20NYNoNXWkQYiIbDw1eQNHYcszQ9j2CKc2Yh0YgnMYRwAYfjBkTINEdb02NqAIiC8YiPgmbKRIiLR0iP+WiB+1iKNmbQcniwZ2gsr3bSvkhLgYfPXHiFjDXk/EfFcoYzl1UwUoT1/nh1oDhvmWin7njLI1PgaHbbG2OwoHXQynf+tWPRW3f+aHZb7mSbq0dL8WjlgjhmAHg1nobFm0XzqYjjnIg6/EjmUoJIKXc5m1cyOWXWqURIqEj+sGet5XiZQoer6kTerWXsiGP/vzh5/GTrXnSo+jRcGlbAq4dczoUUH/mDVs1348yUmq12PTg349OZTXpHr1x0gKxHdEuZT6pHrhR3g/d1R0ozskyZRut3lWmZV445Ra2ZVvg5VeGZaVxZViWZalQ5YidT1V6Xakd47c85KR51LJ13oIxpYvRzfqd3qch3unA1S793tSGZXtw5HAR5iKZJilBUVpZB5VhHyhx01m43xlpYrRN33TlkjWt2S9mH9LhX68uIJVtjXVGGKyE4DkN3/gmH6UCTc32XmWFX+ZBUya6UtIpTyv95lUd2uiGVZ4B36gqZt8KI4JKUQfFJPyo4DANT8U5IAD5oJclAcO+IMVZYHTBR7OpYG7FGhENVv091246WW/GHyW/1heKLg14ek1LTg5HVSAV0dBpUeDLKZyDtlbKWVB9UVsdoSTqmdgC0aE/XmEJFZStPY6V9Vt32loWjOadEVDKcR856masDScjVODONSF8qlHlLRvBhl7MNZQOOdjIKqGQdaG2vmEaSQ9HombSAdOSlc+vAl8UVmNoRmcEYqO8EWM0slvWANJ8VRm8dOhDOWOjUhn8ohnJRp+1KhYuXmgJ5mgvLk8pek+HAeckSmcNhpmPHSXF7qjyBhE+fmjxchRrEhtjAiLpjY+qKZ/6jNO4JFrVQSaD6qg/diNvjiQEGppxnajK6Y1iQhJXkpsYJqjEOWM1aZl0ahtaHh/aZR/qv/FpOnmpGpHQAO6Z4WXml8TjNCkp+Z4aW6JgzCXb4GqnxSZPKL2jsojW/KYcLTTfcdjYqu2iT8HnnYqp+aXS6sjkJbafDJmkO+Eo8aoRQvZdZpWSQ8ZOvnpqb66UR9qOxfZVhnpc4C5VUWmRioKdDM6kjCKd5M6Tt32oJeakvC0knuKrBJUkysHTzKpnDR5T+QKpAuVk2+EbmZplqYDlAsklPPqlXfHoHqXZX2XrzxZPL1Xp4EJsF0JlgarlQibsFa5sAy7lA77sEMZsRIbsGgJksazlsHjgFq6N5KzmhXrfqMqgqwnnnW5sZI5NzbXdSAbslvDlwSqe8XkZCsarcP/ZJjgUT0Dm6tbc6x2s7IuuzaWSaqY+VazOV0E1H3xho3nZ0ZnA7RyA7VBizavWZHyJ5seCHJ2uKS51oRjs7ISmQfQOTlhBFzu6V4uh3VYA1yyRD97NHvzSp3NlYG8k02JFaAV6WRb+1i8uIdm45JeZ5OU1k4+m0Ed5ExbN0IqRo4NiK6b+rBBOIQJ9p8Nhrcid7STKIXAZIViA7bLOLiXZF8dK4xZ80WjKEGVM6G/yrAf2mNpuIZC5oaWa6JsekrnZp1P+5Jhi0P+c4NS+0U0V2yamrBCOmeP+IxHOqDd540maJ6+RzaeK5+hikGd+rtqRkk2NrwGS6hleqhoel4l/7WmSkiyXDOlX6u7n8tsyeq7cJms6iu8WCqx3Pu93iuEiZp0l7h6TJugXss10StBlMa7EDmsykbA7ntvPjSK2guw7lhwqDphqoq5HclIzKu5xbRuXvY1K5tM0hTAVUNC94S4QuSWfmSQj7vA+bqsOues9git4+RZ30S+UYexnQuXyIUGHnzAKEVWLmlc9sRKFIjCcbufh7eTU0uU9Sp3+HrEqLevTltde/evTMx4AmutT1SwU+yaZJnFYUmxXByXW/zFChvGYtywZFzGEHuxuJt05ktEHGvAevOxYiyXJbuontS/wqO6dyO1cvzFMAuijWhG22dVR1ewUEZdMGqzaP/js3UjtWgcPnu3atVntOC2Z6Gnj79EPXPFVyjKS/IKNo78NqFcxlVLVFf7c0O3bk07XatsTM+zvLkZNis7vWIbne6knv+FtveJb6SXRY1TnA8olnKLgc9lt+nlaBEGxawMxYQmvr3Is2lmTzpEy4T7So2DQ/tlvWEUzHrcnv/VqUhMxJLbAEXIYNiWyr3YaOm8mEZWkauKRjKExz37ktQcuv0Ft9psiP+Wn3pMrgdrhiSGhj82omx4zExUyGoEZdmTzNsZrUt8TvQswPf8wUOUiPm8Q6bYPUKcxiOLRKU6pMdbqJ/lSMmsye1s0gwdye/MzrnLpRQ90b4KYxf9TPv/VYgbHc4d3YrdG4uziM7tPKnLPKmMFlimVZ5lM8sS/b71RJkzTb0Znbrx28VjimdGem1nar8+vcyp1s5bXcnfxqqfrMER7WwwvacmrFOje4r67L43iNPSRrQEB48PjHD0WEgkXXzXd7kNJ2j5y21m47n1g05l7T/wyUUZTcIqZnKFOK5tPbEAPV3N6tEtbECQqdVbndJLy5HCF3p/DZdvK0+DHUlvTJ81qcu5rLZsDbduHUZrF9aPDHlJ7D4P/dqI58SE1a9KSduw7ZQDW3hYrNu1fcbAbXtePNxtV9zGfVbIndyKqMbolkLy3H47HDg7Nahc+VLkFGInm5U3VTeR/1XdHuqU9grIcyezGcuYVwx0OMtl33SH8uyYhKU7LHQ8LESVevtzOpvIVdeaKSao02mUkly0gwRUjvSbzauW7aM67k2HyYOa8ZrS62yNVWbU0V26YQo37mrdHX1al0WP83fgwJTBIM7XR7aL/Wvg13rHVA1hqqWmKpS5ZuNHEjmBjruu0+xeoTNc9hO4xnWA7CpGw2yddPt7dzvi/UpF1/N6Cz5lS9xrQzXeXN3XVea3kanLM+448xVm9nVBMNaFjOvDAaba4BO5/0nOlHvOFhzi3sdC20hUJk6Hv2ZrzwXhln20E96m/b3j8mmf9hZZXc6Qy0ZfwUy6QP7YrjvQjf84ZGxEfNKDmDIcfug3sC3qNXnYpCquiyxuf/j9mK4NbCp25XvevuNakDZYeylVjoWe0x9tvEWKpote4LG8v22u0uYlNmf0qCA+iRDu4qyVOyLeNTKevoSeUjf458QqPzqE6kU0v6/ovdZm5MqM5Leqk8ZX4Zy86TOs37sevlTWxl/26cIO6lpj7Kvbb8M5RvMLjTw9jdAuZfxIm/H65mLDvIyW0tu46+RE53kV4+CubDson/QFgZS5b6eLwMP4Rw0s1wc3j3wnPbwY7bardn2l4NXeNbZqWLjet1nFZyHGWRv/6ySnYhzsuBIJdh3Ucs8k6l6OQ6Wn7Jb32MxqOyz/3HMQB+vh9OglibtLzjXc2qRROF3tQ+e9ne2dDuz4dsP//odiF4PHidqkR7bnalYub0LwemTMDcYbDuWCfPWNZ9t5p8y5zfVXGXB0UfZmf/Zon/Zqv/Zs3/ZpsR3C4AuscAqgkAmXQAmTEAmyuPd83/d+//eAH/iCP/iEX/iGf/iIn/iKv/iM3/iO//iQL4vbMQy/kAuoQAqfYPeXYAmV0Pme//mgH/qiP/qkX/qmf/qon/qqv/qs3/qu//qwH/uyP/uVgBvBsAurcAqkAAqf4Amd8PvAH/zCP/zEX/zGf/zIn/zKv/zM3/zO//zQH/3SP/3UX/2/3xoZIgzAoAur/4AKp1AKpEAKozD+5F/+5n/+6J/+6r/+7N/+7v/+8B//8j//9F//9n//+J//oxAaQkEMABHs165cq1SpSpVQ4UKGDR0+hBhR4kSKFS1exJhR40aOHT1+TLhAmTJkx4wRExYMmK9dLXW9hBlT5kyaNW3exJlT506ePX3+BBpU6FCiRXUtEEny2LFixIalDBZV6lSqVa1exZpV61auXb1+BRtW7FiyZc2elYo0acmlxowVgxtX7ly6de3exZtX716+ff3+BRxY8GDChQ3LVZuUJNuljR0/hhxZ8mTKlS1fxpxZ82bOnT1/Bh1a9OPESEeeXoxM9WrWrV2/hh1b9mzatSpt38adW/du3r19/waOrLRa1MWNH0eeXPly5s2dP4ceXfp06tWtX8fePCAAIfkEBQYACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALH4AFgACABUAAAgPAHMJHEiwoMGDCAmyYhUQACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsfgAWAAIAFQAACA0AAQgcSLCgwYMIDQYEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsfgAWAAIAFQAACA8AcwkcSLCgwYMICbJiFRAAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALH0AFgDpAMMAAAj/ABcIHEhwAQAABRMqXMiwocOHECNKnEixosWLGBsezMixo8ePIEOKBLlxpMmTKFOqVFlypcuXMGPCbCmzps2bOCHSzMmzp0+RtIYASEBw58+jSJM+dPUAiYAyA40qnUoV6SADhkqQiIqwqtevPINWWGCGqECpYNOqPcnUyIJBT892XUu3bsirhRa4crDV4Fy7gANTDGo2qIG8aAUrXjxw78HHAdwmZkwZMFyoAveOnVy5c1rCBA0X4uy5NNW9fQcOikzatGu1rV/Lrhp7tm2ktW/r5pl7t+/fwIMLH068uPHjyJMrX868ufPnsqEUmZ5GIKLr11Nev7MACnTP0hdi//9YpLrCO0W8f/94XUSGGdkXVHGIQWH8BeMZ+ikv/j5H/v2txx4eGSiRAUHz0SHQfOLdwGB++S20H3f2+ZcRgBUK6BEiSoiwQAZeDJTgQBicQJCC1mEHoYUFTdhiEXdgl4V6aUCByEDmNZTGdAQBiB6PCe03XRE93rEjkBriJ4ISC8wwg4gLoLhAfQLd0ACDKaqo5Y0JDeklkQtMKCONCxThxwIUQoQIfxEytCOFWZgp0HRZCASFehoSiMcCBkKJ4g1R4odIA4QOtOWW+sH4YozXzSjQmwNh6BCbLHaZY5l1lonnjknyKcJ1BIYoX0EPXmcloVWoKOiNbS666Jj4cf8a6aUNAVgpQeiluYCjZeYoq4YiPCmQCB6OqiAidDRgYoSEnrDiqonqGiaMsCLya69cNnRjGqo2hN6ZA8U5p69gCkhgBuimu+eI+Fl5bLYLmEiHha0S5KK91DbqnbXl9vrQdbbCe56c4aqH4bXfGZgtgUyyi4iVKRJkoqAF1TvQvRfnuyaN/UraHxSZ3trjpQAe3O93wcJLrLECJTvxCfNKTHHFAuMrLaYAp/coftYtQGuF4lpc0I7gijsujic/Fyq8BuIxH6GFxkclzQmJjLF14KJJrooef1ymREfqPCvSnZZt9tlop6322my37fbbcMct99x01233QMrknbdEglz/UZHee8OERh53WxQ4RH1fpHdMgzOmjAoZ2KDMQHEUJMXkAimjAdRS4I25QI983oAMgGe+wOV6y6CBMlJA7XoDArX++iMLHP5Q4obbvlLjiikjSQZWZBB45bQvEEcDnQvUgAYDSVF587E38PwCo3+OOfK1T656QdgT1HrxBOneEO5/i58S74HlbYUKH/JB+QLgayBD9OATJP/nMsBe+wLzJ4T93tsjSPea14D6Ze5z4SudQPqmtzxcAQ14Uwga/KY3VFxBEBaMREHI17crXIFwA7lgJDx4BQ0OxIEkBGH6HmeFBdjABu+LX/9aNz3KSe9zx6ucMkankP9pj3kCTB4B/w2YvYIsLnuYY6AyHBiJz11QICocYRPz1jdULOCJBBEEBBcwwRBu8YoeXOAVrMjFL6IvML+ThDKCF0P6DQR2+iPg4R5xwx32j3udAyAQ3yhENxoRgUX03AJr1zcTQvGLkxOEQD6oN96hQZEjtGIeCBfJgUhxkV/M4AIqKZAzAmZ9efud+4xXkDhYT3bSix7glEFH1PHQf3n8IR4t9zr92e6IBxRjIQuCxdrxzoF50+QCJrmAvimycQ7kpSKvqEKC5OGLXGwmYFQAw9qpgH2kLB4d7xg4Qs2vdXOs4ytnqcdZeq+ACbmlOhNJQjIKxIJ+c+Y7S6gMLQ7Eno8k3COHCf9NZi5SmockiCfr8rt0pUsS2RxiLgWSv0ccL3Q2pJ0dexhL/u1ReX08HTr/mEAEBi5xE3TnFQWBOVwOThn7FCMXLXhFDT5Tmf9UyEsHMlC6sHEgv2sh8QgoSIais3oDCaD2eji/vcnPnArlaAKXGsEw0rSjlhzjGKMaCX1WkpObnKo/E0K+EQKULtQM3zUTCr9XygCiZZ3hOetHughqNHSs2ygfaUlE3R3xiIqcnAXRgDkN5hWXVxwmQeDpV6eWMYQq/KBCLKjIvX5VLaJcZfAkUUPjfe6ipsxcDQ9XqKASEGoUpeXsVmk9BYpRbyOM5wLIGEYy5o2Sh3PqXgVKwmX/xlQhqfUbMQtHlWTyNjm9/G1x0NBP4QbHg8U1rnKXy9zmOve5pjGt58y3u9raZITJNckqbQJY7ZbUo9+VSRdVIsyEYNcl1BUJdbur3sdFLpCsdF1mGdq8zxHxgKXFr+cYS1rw3rW/312lJrer3wIjMb0PYa93bxJK4B1ob3EVYlupt7qyLkRzAe4pLoNJT0D2NJAGhupqO6zh/4Z3oeXz8IK5u0b2ZYAPemvlUvNow+ddNHAKxPF/M3g43OUNi/as7eFym4fXkvDIGlQGkXXcQcWGMBJNlkh3Nxxe6R44wKTFr/gIrGUEH1AFVlDGC7P3vSwD9Y2k2xxUc4zlRR6Z/4QqzR6QPWhFKWKOiQKJRBPnueelnrSkXfzxFz0IQuImuL8G1jGED/dfpirEroousJd9lwGEsjFvGljd5ABHx8re73ivXByEFzrq7PH4c4nT25wNeUG9lnC6fAbk3hq3N04q+dVX/CL5HDJlRmeY1OkNtqzBi2IEq08Fk4vs5DR94E4XJNNGhZqoN03tXC761HpL9Y+XuetWF1O1SIw1R2k9OWDirdXK6OWuG9Lr/IIYvir+cDr9y1Rfs/txkrMmsjXHbE6n0n6kwyGhMrtoeBeRw1O8JwW3HedFkpSfIubxuEH4Wr4ShJHptu26GdLuEtc73iiet4iBLe90FtSglf+eXAHNfLkgAnZ51T4wsBHe44VnvOEjZWfE6TnxAz4TgU+8Oc7vPWx3qzPkIr8wvT2OdCMGD8I5VcbxUFe6okb03XFU9IkBd2qFZ26E3Aa3ty9pYHTDGn23dmclhf7tiHSc5CUGubCVCvd3p5Oaq7xm3r4p6rROTsYLYPb7QNxo/HY9z69Obdgv/nAualXPn5ugvaPpOUP/mHAMHzrHt/zro0t66UmHNeHdvRBl622yk6tcoWoYx/nSUemi97UysJ1tOD+SimJv/DBTqEAkG/nNU0SpkFWtcXATfd4E9nyXka9103J59LxWsZehK5j1gpz61Wd07K+P/bVkeboK7r7/+MdP/vKb//zoT/9KrCxzr2AVvex3yEwzEv6q6Pjj7tcq/LnPkPlHX+n8hxR5AzkwhGN0BDWZBVpzlVH/ljeug1YDF1RA9H3hFlWuxWZFlzsY4X/3VhkNdmmb1joSFl62lEv3MzzdQ0PKk2kSWGy/hnhWNHlUFoCPRoMylV2htxjH1j4xNkAHlzetw1FHFThHJUDKozrFI1SlRW0IFEm4B24TRGdiZEiH5UnCpEiEJlB5AE+9VE+q1U8Y+H3PB375FX8pMYBhNmZAuHLbpTdBuFRDmHqkVGPUIwNS0D9KCGuA5YTGdHGYV0WXNxCMBXGDNUYoFW4W53hTpUEmhHlQ/zRyxAZ7ImZiTBgTlGZpD8Zvi1ZwbyhIcXg6+zMQzsZD+pOHM0cQkQR2H6VaKFVkS6RauGNPI5VVWYUKtYZr47U/jbVJJ4RIcveLdAdvpLd+LZZsL2ZUm1htnWiCATc5NCaK2MNDUtA5Suh8tgN26NZIKrREFkd2vDNCIwZBiZNMgYNFhrZQedWLIRaMwQhY91dyZ4hvm6Z3msiEyhhH+HU/0INAozg/r2eK4baHJGRIP/ZmD4Q5jWNBZKSQgpA49vRS5VhovjhInzNT9Td3oqdfyrd+J2dQakQ9cFU6boiPRVSEArFTV2dWcQCQP9iEY4RnmXNGeOU3sjhiVYUKaP9QVYQDkZhjjhNZTKFIiBcJjBlpcPCIEmskPJsWdVOXZSMphHe0EAH0SivJkpuIilMVUpnjf7hUQim1SOAoCJMESYY4OZx0joGkQQv5QEfZdCXneRupEvIIOPTId6W2NyVYklE5eNxzR5k2gUtYbE6YbvE0e05WgbtnfBNEOITVSXw1OYc5coKVa75oPZLpaJ93Ym55EqanPilHSqsXPrGEOaiEgHzZlwQEmFa2SmsHT7boZgP5OV5VEDCplZ0ERrZVRlzGhVYETWN4ZV02gxs5fSFhPsRZGWR3N9a3GxxYNxu2fa9RRcJFgVdmgxQBYMeZESgkUurXnd75neAZnnP/w35mmBHBlX/cSXTZWZzrCRPvWHcfcZ5V8X7HJ5fxVn84MYDvBUCjVYmnU3RLuEpBh2jV2XyUCGnCyWX0uXnwRxcfmIkWxVPUNnWCp2U16HCIeZnsGGku+EcetqCSaJ8O2mI8aFQE0VDZIwNnxYbgd6GzaJi49m0etExg50xXwI2CZHZH5k4ghVyBw4VSCBGcF3fkeaBhKH3W+JsegYZiVoDKsD09GEuppAGoY21DOouzdUIUNIiHhVhemKNNpIpeaEIdtEyMlFUmBKIdJYZGV3iIGYkuun2d155CmkYLAIKqA2HbVDvHw1CC95499UQHKYivhntiREZOCI7RZJi2/8g7eXOOu3RIk4M+apqDHfqmw8iOmPluHIqfuQNKC6BseUptPPSk/fNQW+dh5dg3j1l7B+SEXPpzjApGacelhHSjXuhOFRSjlaqpMvirRBmnGfqenlo+eKdvyLhpe7pDQgRUJqZUvFeRBqlVM0ViJVRVaIAKI2SYVAiI0ml4vKp//0d3HCqMDBqiw1pw69gRlIZyn6lpeFk5oOY6+wNg0CoIXoVqhXmNYwSOe3NB+JoHDclX5dV2uTpd5dWrmwp9mLqubcmpcBmYxfl0Swk8ywY4m6Ni8gqx9/pttrV2upNPmDepWqSt+fSozURr3xpuvWSbhxZ65Tp5wrqhkSh76v+Fd3SJbIGnN5uTgELkgM0omataOzDpeBkqozFYbmxJmHllZwd7sPrlW88krh2oVM/qgpZZlJt6tTYbEp2ZlJKQP3BURKi6OPlzpQs1oBNEUr+XhYTaqriXV3iWN7mFq7inq4EThRhEtefqoVcLseyVfAQKnB9WrOUzs0hhq+G5nFOxcd/5nJ/3E8kpntW5pnQ6Eh1EhZS7uZzbuZ77uaAbuofGeZfrEPLJrkpqEQqrtcoBqIDqEadLf6XbEFglbNbpG/rppPzTn9EnuKSFRdR5nbPLELV7u8jxoEUUQBoVlCHaaxgKuRo4EsV7Njt4jCYaVHLVvJD2vI0pRjOKeLn/mUw8GUJ/taNJdKNbBE0stUhJS4G/yWWDG10s1KQpyjxROq5HO7RZCkXxxKVo6U9/BTiJB5RASaYUOZl2RosP67wzp5mlcYl3momjWjt7WrV2F0iC+ph85nXfhqiLSEEJmZUpu0WQtJXpW2QwuMDrpIcy6xnHZoww9qT9NlHqaZw9yaoHtmuVFKtbpJCQWYuKG4tatTgJq3+2u7X+ecGUMYD59jj7trPKOk7aO2ywuY2vaJBkVK2spmfPpK1+U7DS+a1EHK54u3lwaqWZ6oEdeVAXuzj/1rd2t6qzycG41a+5t0kCa09gHE9ivDdFXMYAiMQNG10UWztRB8WY1gDc/xeXQ9uHKbwQIitQJRsJ+dRJ28g7fXzDCGnE1gd605bGS4yzeqN3iNyziyyxgSq3hSp8DNFBIuVAFve9RrSLHVxgjji1GrqOwPqwivG1kyW21KPEfmvDzyt8jYdCbjtP/ZRqu2dIrLaKFxh5NKmQlkuG69S1wuw4SFoViguejKsUjuud0OumPDG54kmdwWsTmSu67NzO7vzO8BzPzhm4hrsSqwuA9aydYDi82hxyr3tdfCuk/CzQAZXLu5G7ycu782NKiVxZyvM8sMPQMlzNwXnPyEeMBZ0cyFtO0bM/UXmAOrRsQUthE1iNkft1Af2yGE2IGk2i1rtsJ4pOVKo/0/+YSkY10qOjARJllZqZdt5LW0EqpvzLRUHJrbWzvkE5ODx6QLlZmaQre+WpFkyqhhN9v1QKirBz1Td9RKNzh7UDpSvMaJXkyLclnSgFt71oPdRcwpN5mx/ciDea0bo8p//soHaKp/22p1QaBxqwkoFXUSeIZsFc1RmoY6kYXLuGyYZYi8UUyySlqN62P4V2xxLH0iEW1i1cFy8cqtY7wUBLPaaUaaE9mvqIZqxzOWDtodWJjblJeeo4YpK9Rdu6V1+anDjapRuEq3KdrmuW2SN6rE6crBRMiqYkBUD0iYF9hGVF2Kpt2APJSwb5RT/XUvOECg15o/ZUu+T4vwoXOBz/6I70RmXVt8bo8pHwqnKqN18CgdwBJ9j8Uzn2i9mv+pIx6tp17MWEepM5SUzanb7JpUS7Dd69DcpSXciUFmaIrDmK3GkIxN5cfaoRyrGEV0ku25ySvFtgSZNjiaGm09rmVZb7e9k169veJ8oDqLPwasoMfqLxHXg47ZcsWIFu6tNgRKiPFUIiBUGMmdtZHIrElbXMJGj7TMUyTuKQ9dKeGbaFAjt7w+Cls0evk4B31DoVRrghx0muGUJINlhEbaNTBEGu1WQarJumBU+rVZPxC79GLtXb7BndvFzfTBnhbFzjXNdrYc7Nhc6pCxbrLM9+/ueAHuiCXoNP7RMW3RMW/547+cyexuuiEdsTh84TiS68xHifA43QnOU6bdVZc8VxGQVXZBhiq6vmaX7Nbbh03Ljoqm2fjS5lBw6hmhOVOraMDhGEiQw+zymQ6UmuGei3M4vZFokRqq7o8bg+JYppsv5dtN4Qti513UPPLklGHQTUjxdcwCSTEgekebuF1pU9TcaWHMHAJLeaR3qkzOdf/wVm9Muzzfhfy84QzZ5DbqnrHuuHd+uY9s6VPhypDkRGUWiLl/SK2TPpAs2mH3eVJ320goy11nbXmRjr9nhA774Qzd5ZCqbrNcrBKHuoMFhPW9Rq28p2WxVokNlYq0zwbre9cbfyhA7HM4i1xcjZMf+s4PKl7AqfEKXJTTbMmhd0nmgnqzxMt198kAw0uTNleQjEQGnd6nONf0zX8uiq8lAN3PQI8e23hhJh65tTPBfPrx6kudPaqlrMYdbNQNktrr6F9FkU15I67E3/9EYJ9cIq9UtI3ikH8YI78Qph6xWsxLpetPadQIe9q/qtkzRe0Grf3a9duuIe946/6nNP5LJn4FGH92ym9zjP5E+6UdCOlb2pfxbeSGLpipC5raOfV8Hlk++G5eDO+Cpf5AcPx+3YtbJn4sFt+e5Oksyu+X2f6/zKWqplQa64VK68OIsJo2RKrWyP9N+lWOnG/IqDoFcPp+SMkYVLeg0280muOVZ0jvUR0ey7i+sY6PnzpH/A96NLuzdM9KhDLOZ5u0WkxZtaNLzQHnPDWaRGCtXUH3OauhgAgeqKoAUFDR5EmFDhQoYNHT6EGFHixITKlC20SFHjRo4FBV3pGFLkSJIlC1q8eNIgypMpTb6EGOlKJJg1bd7kGBAAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsfQAWADEBwwAACP8AFwgcSHBBrlwFBQIAkLChw4cQI0qcSLGixYsYM2rcyLGjx4cHGy78SLKkyZMoU6pcuTJkwpEsY8qcSbOmTZYuC8K8ybOnz59AU+YkuDOo0aNIkwIdOrCo0qdQo0rVyFQhw6lYs2rNWnWB061gw4qtOatEhYGDBJT5Orat27ccy54VmHbtVbh48+qFKBetWrZ7Awse25fu37uDEyvWWnhBXcCLI0sG2vgx4smYM98sTGvIYc2gQ8vsbKBQZwCfRateTTJX2YUVbKVmTbu2xa6Qbevejfvy7t+8Eb70Dbw4a1asRBI3zry58+fQo0ufTr269evYs2vfzr279+/gUyL/Gj++J/mfRdKAvVPET/iM5WXGT3jeZ/r17ZvPEEEekZcMeCzQwIADDXiDgAcOdEIDBA04IB0LjHeDgw8qSGGFAl7YQIICYdDACQMh4qGGIGZIIQYELWighSUuUEUDEF5031bsucfcfogI5B+AOiIyYYQ5Ipgigy5uKNCEVUhI5AIexlgghw39OBAdGy4Z34tOEoRlQQ2guACVJS6IQYxbyqgejfndyN9A/wVInpRPDtlhiwssqORAL94QZIRGltfflw1UAaSPKAba33hbHlpkjEru+WKSC96QYJkWzehHEUXcMVAamM7I3pkCZVHEAllAkdCMC3Sa5gKcLgAFpqYO/3SpqjYahyObPL65pEBGWlikoHgaOmF5j+6JSJ/nkYcBiOdhoOcJJV4JI0HETkveh/VhuyCVAlFa0X2XxhrqqAtceiYU4qaaBavkEpTpAp8KxKmm7M5YxLrwvptvrcXdGmGbPcLJK5QLLiAwoEnCOeB8xx5YX4RYnkclhFJKm2W1EI5HpaDxLVtnA4icIKi3FN1XRLqX0suuvGnWmK9AUKx7qXsxE4QuyyqXCjO+++rHH3kA6+jwnhoSeDCVek7o4AkPNwwktcge6eXGTy9KbY4Raxxo1RigaCcdKJI8UXonF9TqQC6bG2qsM6c6ao1qb0oup/wKlDLaq/a75r88Dv80bHy9ClTw0cIS2STDUSvoZcctdl21txiTRzXjH4+HQRViS9Qpz+OqiqmNOqeqcqZ3lOoHe+Xqy7J7dCd0t0Auq7ln0EcyeF7gH1sdLB0+Egkm4kNPufXTVGrIe5CQYw3j7cELaSciVYg8rZnscX52QzWiPlB6aZSeRhqmvs7y6q6rHrutGeypRAYF/ci8nALSeQIGdwq+fIiJM8l0j70ThLTFV7NaeQqGscrlKFDTq5R6OAWq8yUECmnIAucgCIXTQRBfNRtIBlt3KlC9qm6/wUMGlCAQEZLwaX8LEu4KZrDhTeh4cPpdjxIXsRCJiFlB6tp5kidAre3vfwY0WJP/MDIjUansVQ/hVN5EFStMnYk99OIgBwsiqrXlDTiIEGEGtuiFqzVPSL7qFoUCtqtthcx4vCLRxubzQvIk6loXoh8cB5SkHD0PUAn8lgdRJarNESRcZiui+VRFkCkW5FXpadt7FhmRuDHykUe5HiQn6RMoUvKSN1GiyjDJyU568pOgDKUoR0nKUppSOpG4AioaogxlPAUNeXBIK0+pmVSuMiGzVAosZenKUkrhQnEYSC8LJIOBaGBJDSjmQPiwRUkMMwNWGKYNVCAQZSRTmMN8SCu3uU2H2JKV2TzKLsFpyl9uMw7XXIArldlNgWhAmersZSttMM1o9hKa0qSmOtMZ/0+JtDMi38RlOI0yToGWswGzVMYvg7lObFbzneDMAB+soIJc4nMg06wmP3MJkX9CJKCCuMIVqqkMkYp0liGNBDfRgAZUXCESBFFGSLcZUpHmIZewvOUVBCHMPIxUILHEJjcPmlBrFrOhJH0oPLHJzAVIIgPOdOVFBZLRfcKTo9rE6kO+GVKeCmSVPFWGTwdyhZt+dQE83ekwZYoGdaLhpwu4AhqyqcoFpBKmC2BpL2Epz7UOFJTmdGUrG6ABdS6AnRx9ZzjnaQOB4FOq0cSoPo3q0Ih4dKuqTKVXgdrWbe6UrAMJa14FoQxbujKWpm3lXd0KV1fyFKa3zKtZ/6nVUP+ak6QaKGw4GyAFYyKTocqQKFUrCtl8avSqfy0INy9LEM1+liBqneU4Vyvb06qzq8oY50i7+dnsttWheZjrQMaJ1doCFqHCJKxhETtMiMZTsMyUhECYyYfiSva4le2oeROSSpHi9atwNWksW8nXVaLCtXNFgyBuquAFBJW7A85rTE8rXoGQN5v79WRgW/kI3q5XqO5E7jy3SOIM2MC+w8VvUi2b4eaq0qf/jWtYyxtXtH4XrVfIrktLCtPwvlcgor1xP8M7zAtP+KAEkUEDHvHhFS/AvT+GJkFswL4FmHiYKmisVfOb1eQW5Jtvja2RsfnSBgsklQ7ObkAXcGDDCpP/pSAWrV3L6mTmnncgSpaCYA9LUnm6t5vxlSd9F2AFqAqk0PJtsp2V2+KBBFSkjkbrj0nqU7iy2b8yhbRbxWtdcrJZ0i69sGAX3UmFUki3l+XnYYe6gGku18paLjSJOborVfNyuckNqEvrqoxdQzq2pU1zLk/aa7m+2aSkHe97s9nfkeYhqMvuJy2hQ11GT/vanOUltqcd0tgeedumrLS3+wzucpv73OhOt7rXze7VvJonpMaLS2Pcbl719tsY+SVFuqnvCXtZ3i/VDnNx7e/yvnsiHgZxRvrtz1kyPDPzzg6rFe5mabeTthVJOLkXviv9uvLhmIk4dn45oKUu4BFK/1avk3+sjKeSONGErrJjrbAAkl9IzxymEEc77KBZFo1B20x5Mrf5c24KvbcHXzZWX1pTS++02TGu9HMdLeCCvFWk4zapf7MNYLyGNK8iFXKzoT2ZXzJZocE8uYCUmU6tJlSfrTZ0zAki5QLdm5sLXeeSBdJhPZ9cBvxGb5+lEIecA97hHVenkvH8CL8qnKNht/CNTQrkusb1uy6FNozP/F864/iWLvWqyH3c9co/1/PdFojnJyMDDYx6IB2Gp74vW9RZPpXmcx9I3e09YY2vXSDobPzGbzvpJCMU8biEMm1zyVHI3/jRN47410NbV5EXZPoWDirpL43X7Ys8pQMh/f/U1xyZX6K6lx1O+wKCT3u/trLuhaY77nkvTHSq/7CFPfmAmCztmgvevBvmf7ikZIhlbf0HeZslcqtHEHA2ENJnaQxIduKXgAHnYNFXgan3ZZbHfZihDOhUcujXAOrHfm7XS7JGYrgXf7o3fwJyb9UUfMbXID03TMRHaxcSeAJlc373bc03TFOngGQ3XmQXehboEFpnUt/1gxXofRi4gdR3hBUYGctFgK7EZCO4dyUYc3ywgocmc1bGgr7ngXuHZ/lHUh9Ig//XSyrnfzhogE/mexbneKpHgXi1gEJIEA/oEAVVEErYfRfodU54ZoHYgdnUelW4fmS4ct2kAnD3hV3/uEy792RLNVgu2IIgBoPAN4bnJIIDMXuuhIlcpliPJ4cyRn1kFYSVRxDTV20EsX1Wp3lLeGPg93kJYX2aoQxluHZVKIKfyImT1k5UJl8uh3uDxkyRqGT8F09mJxBK5nCFp3fDFHvYFHutlHL9JI0xVYZ9R4o9SFaiN3V2eIoAtllhxnkAhoq0KAhvBYhgtXW0mBA+NW6SQXQOgnPKwHOwh2ETpwwqMGu7d4ILoAIs+IYDYo82d37KIHSul00fSCCt1JBS0G+bOIP3SCHA5VHdqHpaF2PhSFYmRW9SF4RH+F+VFktRWGlt1YTyaHqRRxvp9x5TV28V8ZLhEZMyORE0/wkeNnmTEZGTePZzY/gcO8mTRFmURnmUSJmUSrmUTPkb8dYQ2GcTjdYQe9iU8DaV1weBNIGVr3huH9iJfVWGONd/JzdMQ/dPU9Vq1GRzFyIQbLl//waVWjkTXBmBXrlkveiChOWMmYhzC1VNfDZpaVlVdlcQy7hxFRGVNVGXd2huwZSM7mV2WgVRs7R4W7Zij5ViDVKJ/peMF2dwF4d9Y9VPWrdNb8VNoTdvrzaXZjWHUNeKWoeO03Z/kuiWvMiQnDhL9jdYIvaFuUSY9NeJQdlNGNlXvTR9MCZYROhgOVZaUZh60SVY6mhh0AVdmpaBDShbd8l/h2ki2SSRu/iMG/81S1LWS8BpiQTRnQTHZbnkVSklTz42S93lYELoSgrmnKv0bHb1aYJYh384Z2Imm7TUkANCm/rmi+Cpfzg3npDVT+cJh295fFlYWTz1nvKEVt20S2L1U6rpYDfVVdoZhCXlVR3pilWJbZiIjdhUcgJ4jbfJoI44Sw/Kmeo5cX32bk1HlpRnU+okfXPlWm61YKNVhMLkeSUqZCd6bQYalP2EjDCom3hJWeRWd/PUiOgpnJ6ZdPs1U+UImKT1agQWS/fpWjnWUiMVcK44oqqHjiYqoNOWjCBXmXt3TZWZf1IqbSZGUlnGJTQ6nLXHZarYnJqWfaNWVLakSrN0V2JKftX/9GjoiH2p5KamxH76x3jxhI15Z2r8h1TthGhdCHPBaZtZ2lcUF6itFGqRNmPMV1JllUu7BlM1NV7fVVLQ1pFEGGqSWkpfCXztRSC+qE73R2sNwk4nmAFaBaEaInzRdqPt2ZzO+VPFRnkxhVp0xaHGVk1JWHEdOWeQpp9W2RZPCY9z+a3NwZhzSK7SEa5WJ2Toyhw2KhEt2a7yOq/0Wq/2eq/4qm1boa4PkaRRwai0ZK4/wa96mKtIAbC7kX7bdEwMxSXwRCAZokxCt38Fcmr9RKAFmokXkowx54UqKBBPtYWdmRDHpCHwVLJwWBH+ChUIqxsKq6kq9k9nWYhlmGfB/3lMwmd/DQGKCSGQwvWIAxGyovoQPCsgC1lztEkRK/sULWsbCquzKjZpQPdPrUcQxxSqe7l+t4lNmPhPTyUJ9GSCVdZKIdtKNfpeXaupAmuXGrlZTbdZ19qfrniuGol1VIcKUoeHR7iSLsuLvLVWMKqL/Ve1Pxmqywi1SUWp/UdRysBMYktSZduZxtlLT2q2W7sR2mVpo7mcGcicOJYQAadZlYdX/RVUDUhdTVsb6adYgNubvze4uZhbhsuJiNtNittOAtlyPxt/2yS0kouYlZtGgqcRu/RWevtf07ecpYhm2ulSq7SHpzt101dQqeuSDvKLGrKDbXlvhHtYY+h7u/+JsWOIsUf7tQKRZa7Eu2T7s5IJvFGKhhmbEbBkvIHqYrcUvQZWV5BmS8r7uXNGbxwoiHzrtCIou8wXuIEpbRObi76Xd7W7iY1HqoUmts40wbbHvlFafCTofiyKEVfHrlKndbf0Td4aV5EQCeGFCmhmi6nHiqUnwM2hsDN7mSy3aqzWvXxqfA/5q7nEs9vUjyWGTxbsSr7bvhr8viCGjB6cB6hqig/xWVG4U4KAwoIwnSz8Uy4cwAAaw7T7t4I1nlHbTTi8mbA3dFqrfrbLpOrku+dbUYg2S/ElqsY5EMFLbkp8EbsUqXf7EOrIvBamjiqsYKZLdtMVhdBFjoOYsAj/+reXeXGqVqcOkXA8B6WF51BFqwwTTBCeemVSdWIfh5fue3brFMEVaXJKG1QgamHjemkx6VNJ+FzUlYFZ7LkWmMi2UZHql2dYxaKD1ZbrlIsy6CDApbXAtMPKWk17ShC351go+F4Resxpi4sWSbywCItVx4BOmMqbJ4jS2p96KFKC4LxLSbB6kZ35+hFr+xa2eM4cQc55sa3sbBHvGhm7ZrDxfM/4nM/6vM/83M/fms5XGZcbMZT/asuYBNA34c4VQdAsa9CaIXRX5bAklYy+6HuE+5YR7H/ApNEaYrQFgU4u2I9aBrQgK1xvqX48RyFsVzScOREMzbQOjRnHdE53/9d2zPdLSJeQoXrRS4Kz2QRlOUzHvreGt+exXii0DIdOkwhywskRL60U1SsZu3mAMNp3IGbR+ZfUjBxPysdNXtxLzfjJyci4P4vJxtpLSH18tvmMlusQTG0Rz/WqTwjLrexs7FqKdbuBX/fBeivCtAHSrxfGiDeqV4p/tinUlbywBRhPHpZL1Pi65xtNYdtKQ+xUEmVq0mbG6vTWLaoRn9XEQGWtXmXOdKaYJjxn7tmEpxdUqBvTk1GyGS3YrgTM3YTVh51GRVWbtNXYuWR2zVhNX2vWs6S+ll1fnsgrZYjZDcHZFAHFQmZ90yfLdcW8uyTO0Ptds0ik1Ova8wiR8v+UvbNtULbN0XTaTpSJYbz93QybUIyru/U1dxds3LuCi8nN2czt0iHFrlH5TctJeuK8v6rUv9E9iNYX1fPYS8dkpzBK2z5XiTztTu+L4EeFawnHfOiEkOjrSoyYvuzTu5f9cNZU34l3257No7AJhbckfp13wim8woacep3rgFFo4IuBa395p+3kp6403v1GjUN13kH9auntckEsX8Rdtg9n1dVk3yO+0FO8gKZ9t34sY1OcB1XcVldcefJY4Nxd49+Zm2CstS6YS6oWmUuCjIV63tmkcUOV3pW9zG/sSoH2cHe82U1+3/BaoeNn0IJMyIAcCYKcfWwb4944Xl2uGIT/1yCu18jMZ7PVOLQj29mPzdWLHZxtntP86Mm9tOGwRp6ezHC6TFJM7tRetc1gx8d2G37XCs7e/I6EHtqcdeiDUY0UYo9rbtNpF7/knZ67osQRytaUqHC8Xba5FOclZk+m5iB2WpEXYnJ4HhFT91abFcJDGLeVV+ozrnWByrdXF86yHrAIHRj968+AShtR7s8KrRizzM/zrBo1BcDkHu/yPu/0Xu/2fu9l1+R8B7EYobgSAdEcgbIc23BuQePdcd/4mBH+DhF17hFFa9ieNhYG726guY896H6fSYoUsfAPYWsd8fBjXO5bMfGiYaMXv3FDddz+JvIQwfGR3NIcAfLA/8zyWUHyoWFz8NRhKDcgR5vxn2wiLpjSqOaWhVWPBJHScKlR17ts6Y1RJHZiK7hNQ2zMl1o0C9nuBeG8KHnIr+mRqU51Jm7oX8/KJpXi/ylbvrZZ3ArPbbGMaLfv6WTGQ/V6UrDeUNtNQ6/RVuiLUEupSh7WKEsh/GcF9aW7I/1Ywi1PlVunpLpyDlHPa+r1Wo7ao6vqpNt5qGx5rW32Mo5XV7dKsWx5bC8Whth/Kop0Skf3Wyu7TZr3f0l/UEaCODzUd7eqrkRl1ZSZmSzUokyGhUrzMg5t2Be3EXfdL5yVbLvdnP/C9Eu3ez7AYmF+k5aTj9lPxPnzcppUVdvbtf/WW9Qfpb4H1BW+qo/4fvYUc7jZ+8y47Pj2EFyuU6go4D917nvoY+/PdQFsznt8/HghhgDRoIEMZQsWPGoQx+AChY8WKCsI0aBEKQ0eFqw4saAMDRcNZlzYQMrBhAvjNHikDKFAlgMhQhS5UOKCDDVtvsxgRaKVDAVNovRokKPGhUGLHl2A6kqkhZGuoDJ4JQ9SpUwXCnq6IA8apFGvfAXLtWrTrFq5Ghy7AM3Zo1jBgrXaVe5cunXt3n0JUYZLkgqLOpwpE6NFiUM9cnz50WLIkQj9MkQJc6TgojE1KsugYiFPnDoLci56ErDPBYYDG52bdoFTqAukUl1aFKvB2V3/0UyFHZe1wa0L067tuvvucOLFjRNdiLhv8o6Ji1IkXHAgUcQzQRq0bHmBhsjbCVJm/JxPBj6bexbMKVFFz9BAA4N07pyu6t5RcR+9XTT/6thI6yO9QpCF0CjrP6ysAi634xZksEFlOgrpO8cMekw+ojLSa7HDNHDuugUs20so7lKCbLKLSNPuIUkysMEgG2pSTwWI1jtvItGMOmmymSyUKy2n4noNqR9pK0utsiKxSqn7isrjCt4IbA0rqNxCkK2jmmytQS23lOullqR4yaGQxORRIjEN4tCnilpaYDIPteNOJIRIJKmllLw08aLxarKCM59ssmI8iFZqicOi1mwg/8287FLqrSxdW7Iop8DyD6xI3+rPyACVyrLJK7jqL8Gu3PrKSi5PRfWvklJldUEeW2VQNVhnpbVWW1V97FZdUdt1OFl7BTZYYY+acNhZXzVWwWSXZXbWYovaqyU7m+0SWWqTyvRabbfltltvvwU3XHHHJbdcc89FN11112W3XXffJddab0+Dt157iZO3W3rv5XfBL4U6UZkbz/yIImJ9yvVDvwR6bChEpSWtq4dXRVNaCEuz+Cg+i7JBs4XGkwS779qTViCCkZqYJaGkRYo7GQ5NdKFno51uoThZejk5lkyc+EyBZP75LpovpjnohRDNuU0NlyNUoJxPIggjh14mbf/ghCCqyM2HKhZTIb+cS5Toi7EbKd/roLZ5bGjVLmo8Kzx2Ee4FQBY54qM0SJq4FEu72GiSPKxIA7+K5c4kE/GWK2aScr5uROxWXdOulWTO2bAPNSwcOwg9nLBYhOo2iuqfHHJMIsXLptAyry8TWQMxLSf7RNZlqsi6VTVIM3RFL1PGBhtWlOSljmcCGaaRu0LcuL0tr+gxKTqiOOucJzwpYZvzPnrp6pX+qTGRctbAQ7lwl4v5km40CKGROC/pWa+vDn3r1Em/WjrG5d+eIf1l/1AGKSpXW0wSYyGsNQBs4MtdYKoTkZmQRxkq8EzvZCQRuvXPbkVJXnGWd7GKnCn/fKVJWgeBQr29Xa8rNYsQ91LXEJSgJA4ymBNd8ocU8zmEfBjsCPtY+JipGZCByZEfZOgXhwz5BXWXM8n+AjOdxcDuQ2XLS8SgE5REFQR3EtlRdZAjKAlKpGMeqSBfxoe9u2wwfYojiUOu00EpeM8vcTqZd5DyLDS97DpBm5P/ZBCHGM6lg+WDEEIgZEYdLodCGPOJc6j2Eqv9bGl5itohQwKU/rVpJE4U4KKeM5igXHE70lpk0UTiE99BpHgL+OLHMhAyC84lg3rLE8Z2dqhAQg4oFnHfLG0mrR3eLYctSdpJDlK4PpZvhDhbmS6feJQQFdJzFtkLaWYiuvn1RRlZ/zva1hx3SIXIZzqfwyQUy1RAsBnKkwFThhadkx702KAgqTRIGI/XMjLaxYxINCGaNgcU/9GxYhd75RkThjiQbFOY23EjXf6YT8MYjZBL6xwvlUbEKJYmiFajaObatDWEBFN/3qzcCwMoTgJyEmhgetDFoqhOCtrEpe+UmzwvmE8NxtIwOTpjydQ4QtdRDGZvrOfeYgKSjqaOWD5FygzlyLfUTSagBIVo+5BaVNZFM3sChQhON+qTvXRNiTOp2QvDKTv5TFFnd7phVXPnkS+2tDwvKgpoWjnG49zzk4pR1fooKTikKgaoXQnR6FSIsZ0e1XpHQeFSLZe5hS6nsRg9ysY1USgF+k1GfVi14mKOSNXV8Q+FuBsp/wLzkuvsBYpplZ0WT8TOhbBoASuygkFg6xMxIq+edbErTp/6y65xRyFSyBUaA3rG6VnmOkUV3zJl+FkAdk9zKRQZdOkYpi+ZqSU8rF+JtvqSruqPl/bLXmjjU9aHqfRBFivMWh9yyoXA9bUu5UNeSoa94drTpmMbEVLZSMnL+aVoearv4xh21bMmt4QnvK6IMIg5ZQpYO/7sV13yFWEKV/hb+7JwhjWsrQlv2MO2CggAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUGAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACxzABYAOwHPAAAI/wAXCBxIsKDBgwJz5ULIUCAAAA0jSpxIsaLFixgzatzIsaPHjxIVZnwIsqTJkyhTqlzJkqNIjCRbypxJs6bNmx9fXoyJs6fPn0CDdtRp0JUDEgd5Cl3KtKnTmiIHCShT0ChSg0qfat3KtevEqFOrHk0K0avZs2ifgqVK0CrZtHDjyqU5q8TDuwDCWjXz0EAhh2XnCh5MWONasQASLKhbAXDhx5AjGzzc1oFigWb8LsgqubPntJQHusWsmfPn06idhhY4ekHmv6ZTy56Nc/WC1q83B6bNu/dMkbYCGBF71XXp3b6TKy8p0uhl0WNJw0a+vLr1iy9t3dUb3fj06+DDf/9dCJO6+PPiiVaMjb79cvUU2bufz5sVq5Hm6evfz7+///8ABijggAQWaOCBCCao4IIMNujggxBGKOGEPWVg4YUWKrFABhoONEMGFIbYkxIgEsQhQR+KqGJNJBZ0ooclrijjSi2a2KFAKc6oI0o1DvQijjHuKKRHPQqEIYZDJtlRkRveuECOSkZ5EZM/PhmklFhGRKWTUGbpJUJbonjll2QKFCaMZaap5ppstunmmwVFIuecdNZp55145qnnnnz26eefgAYq6KCEFmrooYjmuYAyCxgjjC+snAJKJpdQMkkkj2Sq6aacdurpp6CGKuqopJZq6qmopqrqqqy26uqrjyz/2ugwv+SCCimfUHqJJZX06uuvwAYr7LDEFmvsscgmq+yyzDbr7LPQRivttJUsiswxxASzyyqnkALKJ550Iu645JZr7rnopqvuuuy26+678MYr77z01mvvvfiKC40y1xYjDDC6rILKKaWQQsooCCes8MIMN+zwwxBHLPHEFFds8cUYZ6zxxhx37PEo+ypzDLbB/LJLLquookoqLLfs8sswxyzzzDTXbPPNOOes88489+zzz0AHLTTLIV9rDDHCBAOML7s0rcvTUEct9dRUV2311VhnrfXWXHft9ddghy322GSXrQs0RY9cDDHDJB3M23DHLffcdNdt991456333nz3/+3334AHLvjghBcON9ppj2yMMcU07vjjkEcu+eSUV2755ZhnrvnmnHfu+eeghy766I8jHvICyFw78uqst+7667DHLvvstNdu++2456777rz37vvvwLtuOtoF8Zv68cgnr/zyzDfv/PPQRy/99NRXb/312Gev/fbcHz884gMpwyhB4gtU/kHnG1S++OMv2r774b+vvvwWse9++/bDbz7+68t/fvoAtF/+Arim7xnwgAhMoAIXyMAGOvCBEIygBCdIwQpa8IIYzKAGN8jBDnrwgyAMoQhHSMISmvCEKEyhClfIwha68IUwjKEMZ0jDGtrwhjjMoQ53yMMe+vCHQAyiEP+HSMQiGvGISEyiEpfIxCY68YlQjKIUp0jFKlrxiljMoha3yMUuevGLYAyjGMdIxjKa8YxoTKMa18jGNrrxjXCMoxznSMc62vGOeMyjHvfIxz768Y+ADKQgB0nIQhrykIhMpCIXychGOvKRkIykJCdJyUpa8pKYzKQmN8nJTnryk6AMpShHScpSmvKUqEylKlfJyla68pWwjKUsZ0nLWtrylrjMpS53ycte+vKXwAymMIdJzGIa85jITKYyl8nMZjrzmdCMpjSnSc1qWvOa2MymNrfJzW5685vgDKc4x0nOcprznOhMpzrXyc52uvOd8IynPOdJz3ra8574zKc+98ljz376858ADahAB0rQghr0oAhNqEIXytCGOvShEI2oRCdK0Ypa9KIYzahGN8rRjnr0oyANqUhHStKSmvSkKE2pSqO5gJU2sKUuXSBMY5pAgdC0pja9qQEJotPvGaSn4DsIUAMCACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAspQAWAAwAKQAACLwAF+TKtaCgwQUAAAgkeLBgwoUNHSocGBHhRIYNH1KMqBHjwY4VO5pJCKCCxAWzShgotMCVgwQWFwwSUMbgoABGEtIastKgSxI6h8D06aBC0KEFfz6cWbMg04cph7o0qTElSRInN2a8GJIrR4WsWHWtSLas2bNo06pdizaD2wx4GnrJoKSgkgxeDoqYcXBGBoNz8wLGa/fvQTyEF9xtiLiuYsMGEQueG3dw5QUZ+BqcIeLgXcF3Lxec+7ZhQAAh+QQFBwALACytAQABAQABAAAIBAAXBAQAIfkEBQYACwAsrwAWAAwAKQAACKMAc+VaQLAgQQAABBo0iFDhwoMJBz5c0FDiw4oTKUbMiHFiQ1sBjJhBKKCMxly2ECZYQGuIgUIfAVQoOKhkTBIXE6bEufBmTpQAeDLUGfTnzp8We270uDQnK1YcAWScSrWq1atYs2pdoCSDV694FnYtKCJD2IJjCXrJoMRg2gVrvbjNUNCr2K8ZZjxMW/YsWroL8OS9W3CG2bkFBev9a9Dw2YAAACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBwALACxzABYAOwE4AAAI/wAXCBxIsKDBgwgTKlxIMFeuhAAAMJxIsaLFixgzatzIsaPHjyAvOoQoMaTJkyhTqlzJsiXHkQgjupxJs6bNmzhPwjwoM6fPn0CDCjW502DPoUiTKl36s2jBo0yjSp1KNaNTglCrat3KVerVgVm7ih1LtqbDWSUiBjACtmTZt3DjgsyFNoHAWSYKCQwrt6/fvwZzuXJAgqdbwIgTy6WbtvDTw4ojS97qkNYQtWz3Qp7MuXPSnYPXavZMunTQooMd8zXNunXKXLYqDBwkesFq17hzb3Q4KCIAAWXa6h5OXOPX0cWTK1d43Pbm5dCTN78dvTpRh9iza9/Ovbv37+C5R/IMT768+fPo06tfz769+/aB38ufT7++/fv48+t3TxCa//8ABijggAQWaOCBCCao4IIMNujggxBGKOGEFB44UIUYZqjhhhx26OGHIDYoUIgklmjiiSimqGKAC6zo4oswxihjii3OaOONOOaoI4A17ujjj0AGKeSQRBZp5JFIJqnkkkw26eSTUEYp5ZRUVmnllVhmqeWWXHbp5ZdghinmmGSWaeaZaKap5ppstunmm3DGKeecdNZp55145qnnnnz26eefgAYq6KCEmtljoYj6eGiijN64aKOQwjhipJS+eGGlmKLYX6achmhQp6ByiFCopFIYEAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACzEABYACwAVAAAIWwBz5VpAsOACAAAEGiyIUOHCgwkHPmwocSHFhxAdWoyIkaIrBwkMUhwEQEAZhhE/hkSpUSTHiS83CpxVwiTLXLYQVrhJawiAlRkHkiRxk6aBQih7AtjpsiXKgAAAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAszQAWAAIAFQAACA0AcwkcSLCgwYMIDQYEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAszQAWAAIAFQAACA0AAQgcSLCgwYMIDQYEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAsrQEAAQEAAQAACAQAFwQEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAAh+QQFBgALACytAQABAQABAAAIBAAXBAQAIfkEBQcACwAszQAWAAIAFQAACA0AAwkcSLCgwYMIDQYEACH5BAUHAAsALK0BAAEBAAEAAAgEABcEBAA7</file>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   title,
+         price
+FROM     Books
+ORDER BY title;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1             Ape and Essence  20.0000
+2             Brave New World  25.0000
+3  Elements of ML Programming  60.0000
+4                 Fuzzy Logic  55.0000
+5                      Island  30.0000
+6  Mining of massive datasets  75.0000
+7             The Kite Runner  32.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 06 - error in query</text>
+		</name>
+		<questiontext format="markdown">
+			<text>If the query returns an error on the server, an appropriate message will be displayed while comparing the results.
+
+You can check the following query that is trying to display the contents of a non-existent column in `Books` table:
+
+```sql
+SELECT   title,
+         price,
+         this_column_not_exist
+FROM     Books
+ORDER BY title;
+```
+
+After testing, clear the answer field, enter the query below and continue.
+
+```sql
+SELECT   title,
+         price
+FROM     Books
+ORDER BY title;
+```</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   title,
+         price
+FROM     Books
+ORDER BY title;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1             Ape and Essence  20.0000
+2             Brave New World  25.0000
+3  Elements of ML Programming  60.0000
+4                 Fuzzy Logic  55.0000
+5                      Island  30.0000
+6  Mining of massive datasets  75.0000
+7             The Kite Runner  32.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 07 - hidden test case</text>
+		</name>
+		<questiontext format="markdown">
+			<text>To limit submissions with hard-coded solutions, some test cases may not be visible to students (they are visible only to the instructors).
+
+Display `title` and `price` of the last published book.
+
+You can check the following two solutions:
+
+a) incorrect (but matches the example shown below):
+
+```sql
+SELECT title,
+       price
+FROM   Books
+WHERE  title = 'Mining of massive datasets';
+```
+
+b) correct:
+
+```sql
+SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);
+```
+
+Note that when the code fails the hidden test, you'll see this message:
+
+&gt; *Your code failed one or more hidden tests.*&lt;br&gt;
+&gt; *Your code must pass all tests to earn any marks. Try again.*</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1  Mining of massive datasets  75.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>         title    price
+1  Fuzzy Logic  55.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>HIDE</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 08 - checking SQL structure - grammar</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Introductory database courses cover many SQL query structures, such as joins and subqueries. Sometimes the teacher may require to solve a given problem with a given method. In this case, the student's submitted solution is first parsed, and then the used Transact-SQL grammar elements are checked (*de facto* only a fragment of this grammar is supported, limited to some DQL, DML and DDL commands).
+
+Display `title` and `price` of the last published book. Use subquery.
+
+You can check the following two solutions:
+
+a) incorrect:
+
+```sql
+SELECT   TOP 1 title,
+         price
+FROM     Books
+ORDER BY pub_year DESC;
+```
+
+b) correct:
+
+```sql
+SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);
+```
+
+Note that the first test case checks which Transact-SQL grammar elements were used in the submitted query.</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>Matched grammar elements: subquery</text>
+				</expected>
+				<extra>
+					<text>print(check_query_grammar_elements(['subquery']))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1  Mining of massive datasets  75.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 09 - checking SQL structure - tokens</text>
+		</name>
+		<questiontext format="markdown">
+			<text>A similar check may apply not only to the Transact-SQL grammar, but also to the tokens.
+
+Display genres that have at least 3 books. Use `HAVING`. Order by genre.
+
+You can check the following solution:
+
+```sql
+SELECT   genre, 
+         COUNT(*) [no of books]
+FROM     Books
+GROUP BY genre
+HAVING   COUNT(*) &gt;= 3
+ORDER BY genre;
+```
+
+Note that the first test case checks which Transact-SQL tokens were used in the submitted query.</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   genre, 
+         COUNT(*) [no of books]
+FROM     Books
+GROUP BY genre
+HAVING   COUNT(*) &gt;= 3
+ORDER BY genre;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>Matched tokens: HAVING</text>
+				</expected>
+				<extra>
+					<text>print(check_query_tokens(['having']))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>              genre  no of books
+1  computer science            3
+2   science fiction            3</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 10 - checking SQL structure - parse error</text>
+		</name>
+		<questiontext format="markdown">
+			<text>If the submitted query is parsed to check grammar and/or tokens, it may happen that the submitted solution returns an error in the parsing step because the submitted query has a syntax error.
+
+You can check the following solution:
+
+```sql
+SELECT   genre, 
+         COUNT(*) [no of books]
+FROM     Books
+... and somewhere here HAVING
+```
+
+After verifying results of the above query, clear the answer field, enter the code below and proceed further:
+
+```sql
+SELECT   genre, 
+         COUNT(*) [no of books]
+FROM     Books
+GROUP BY genre
+HAVING   COUNT(*) &gt;= 3;
+```</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT   genre, 
+         COUNT(*) [no of books]
+FROM     Books
+GROUP BY genre
+HAVING   COUNT(*) &gt;= 3;</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>Matched tokens: HAVING</text>
+				</expected>
+				<extra>
+					<text>print(check_query_tokens(['having']))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>              genre  no of books
+1  computer science            3
+2   science fiction            3</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+	<question type="coderunner">
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<name>
+			<text>TSQL - 11 - checking SQL structure - hacking</text>
+		</name>
+		<questiontext format="markdown">
+			<text>Sometimes the teacher requires to send only one `SELECT` expression. Solutions having several such expressions (separate or combined using set theory operations) might not be accepted. Additionally, it may be required to use one SQL structure (e.g. a subquery) without using another SQL structure (e.g. without joining the tables). All these checks are made at the stage of parsing the submitted solution.
+
+Display `title` and `price` of the last published book. Use subquery, do not use `TOP`.
+
+You can check the following solutions:
+
+a) incorrect:
+
+```sql
+SELECT   TOP 1 title,
+         price
+FROM     Books
+ORDER BY pub_year DESC;
+SELECT   1
+FROM     Books
+WHERE    1 = (SELECT 0);
+```
+
+b) incorrect:
+
+```sql
+SELECT   B1.title,
+         B1.price
+FROM     Books B1
+         LEFT OUTER JOIN Books B2
+                      ON B1.pub_year &lt; B2.pub_year
+WHERE    B2.title IS NULL
+UNION
+SELECT   title,
+         price
+FROM     Books
+WHERE    1 = (SELECT 0);
+```
+
+c) correct:
+
+```sql
+SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);
+```</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>0</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace></useace>
+		<resultcolumns></resultcolumns>
+		<template></template>
+		<iscombinatortemplate></iscombinatortemplate>
+		<allowmultiplestdins></allowmultiplestdins>
+		<answer>SELECT title,
+       price
+FROM   Books
+WHERE  pub_year = (SELECT MAX(pub_year)
+                   FROM   Books);</answer>
+		<validateonsave>1</validateonsave>
+		<testsplitterre></testsplitterre>
+		<language></language>
+		<acelang></acelang>
+		<sandbox></sandbox>
+		<grader></grader>
+		<cputimelimitsecs></cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin></uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>Matched grammar elements: subquery</text>
+				</expected>
+				<extra>
+					<text>print(check_query_grammar_elements(['sql_clauses', 'union_query_expression', 'top_clause', 'subquery']))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="1" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>                        title    price
+1  Mining of massive datasets  75.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(1, 'Mining of massive datasets', 75, 2014, 'computer science'),
+(2, 'The Kite Runner',            32, 2004, 'drama'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>SHOW</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+			<testcase testtype="0" useasexample="0" hiderestiffail="0" mark="1.0">
+				<testcode>
+					<text></text>
+				</testcode>
+				<stdin>
+					<text></text>
+				</stdin>
+				<expected>
+					<text>         title    price
+1  Fuzzy Logic  55.0000</text>
+				</expected>
+				<extra>
+					<text>__db_code__ = r'''
+DROP TABLE IF EXISTS Books, Authors;
+
+CREATE TABLE Authors
+(
+    id_author INT PRIMARY KEY,
+    name      VARCHAR(30),
+    country   VARCHAR(15)
+);
+
+CREATE TABLE Books
+(
+    id_book  INT PRIMARY KEY IDENTITY(10,1),
+    author   INT REFERENCES Authors(id_author),
+    title    VARCHAR(50),
+    price    MONEY,
+    pub_year INT,
+    genre    VARCHAR(30)
+);
+
+INSERT INTO Authors VALUES
+(1, 'Ullman',      'USA'),
+(2, 'Hosseini',    'Afghanistan'),
+(3, 'Huxley',      'England'),
+(4, 'Yen',         'USA'),
+(5, 'Cervantes',   'Spain');
+
+INSERT INTO Books VALUES
+(1, 'Elements of ML Programming', 60, 1998, 'computer science'),
+(3, 'Brave New World',            25, 1932 ,'science fiction'),
+(3, 'Island',                     30, 1962, 'science fiction'),
+(3, 'Ape and Essence',            20, 1948, 'science fiction'),
+(4, 'Fuzzy Logic',                55, 1999, 'computer science');
+'''
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))</text>
+				</extra>
+				<display>
+					<text>HIDE</text>
+				</display>
+				<outcome>15</outcome>
+				<stderr></stderr>
+			</testcase>
+		</testcases>
+	</question>
+</quiz>

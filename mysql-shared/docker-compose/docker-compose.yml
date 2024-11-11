@@ -1,0 +1,18 @@
+version: "2"
+services:
+  db:
+    image: mysql/mysql-server:8.0.22-1.1.18
+    environment:
+      - MYSQL_ROOT_PASSWORD=jobe_runner
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - 127.0.0.1:3306:3306
+    volumes:
+      - /etc/docker/compose/mssql/bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.19.0.0/16

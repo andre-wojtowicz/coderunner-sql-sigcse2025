@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<quiz>
+	<question type="coderunner">
+		<name>
+			<text>_USER_DEFINED_PROTOTYPE_mssql_shared_v1.4</text>
+		</name>
+		<coderunnertype>mssql_shared_v1.4</coderunnertype>
+		<questiontext format="html">
+			<text>
+            &lt;style&gt;
+            #qtype-help &gt; h3,
+            #qtype-help &gt; h4,
+            #qtype-help &gt; h5,
+            #qtype-help &gt; h6 {
+                font-weight: normal;
+            }
+            .codehilite {
+                padding: 10px;
+            }
+            &lt;/style&gt;
+            
+&lt;h4 id="mssql-shared"&gt;MSSQL-shared&lt;/h4&gt;
+&lt;p&gt;A teacher working on a new question has to provide a standard question description, an example answer for validation and test cases. The basic setup of a test case requires code in the &lt;strong&gt;Extra template data&lt;/strong&gt; section which uses Python functions provided by the template. Verification of a test case is done by textual output comparison. When a database engine reports an error it is displayed to the student.&lt;/p&gt;
+&lt;p&gt;The following subsections briefly describe how a test case is prepared depending on the question type. This question template automatically creates a temporary database on a shared server and cleans up the environment at the end of evaluation. These general guidelines use Python code and can be customized by the teacher accordingly to the course requirements.&lt;/p&gt;
+&lt;h4 id="dql-question-type"&gt;DQL Question Type&lt;/h4&gt;
+&lt;p&gt;This type of question uses the &lt;code&gt;SELECT&lt;/code&gt; command to extract data from a database. In &lt;strong&gt;Extra template data&lt;/strong&gt; section of a test case, firstly, a database is filled with tables, data, etc.; secondly, a student's answer is invoked with output printed on the standard output. Since validation is done in a textual way, the teacher should either a) explicitly put in the question description what columns should the student use to sort results by &lt;code&gt;ORDER BY&lt;/code&gt; clause; or b) configure the script to sort rows in a pre-processing step before printing to the standard output. See sample code below:&lt;/p&gt;
+&lt;pre class="codehilite"&gt;&lt;code class="language-python"&gt;__db_code__ = r'''
+-- database init commands e.g. CREATE TABLE, INSERT etc.
+-- ...
+'''
+
+invoke_cursor_sql(__db_code__)
+print(invoke_cursor_sql(__student_answer__))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id="ddldml-question-type"&gt;DDL/DML Question Type&lt;/h4&gt;
+&lt;p&gt;This type of question checks a student's ability to modify a database, e.g. with &lt;code&gt;CREATE&lt;/code&gt;, &lt;code&gt;INSERT&lt;/code&gt; etc. commands. In &lt;strong&gt;Extra template data&lt;/strong&gt; section of a test case, firstly, a database is filled with tables, data etc.; secondly, a student's answer is invoked; thirdly, a verification &lt;code&gt;SELECT&lt;/code&gt; query is invoked with output printed on standard output. See sample code below:&lt;/p&gt;
+&lt;pre class="codehilite"&gt;&lt;code class="language-python"&gt;__db_code__ = r'''
+-- database init commands e.g. CREATE TABLE, INSERT etc.
+-- ...
+'''
+
+__testcode__ = r'''
+-- statement checking database structure e.g. SELECT data about 
+-- columns in a table using INFORMATION_SCHEMA view; test code can be
+-- provided here or in 'Test code X' section of a test case
+-- ...
+'''
+
+invoke_cursor_sql(__db_code__)
+invoke_cursor_sql(__student_answer__)
+print(invoke_cursor_sql(__testcode__))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id="optional-grammar-check"&gt;Optional Grammar Check&lt;/h4&gt;
+&lt;p&gt;If a question has to be solved with a specific method, then a parsing tree analysis of an input SQL statement is possible. Firstly, in &lt;strong&gt;Expected output&lt;/strong&gt; section of a test case the teacher provides what elements of the T-SQL grammar and tokens must be detected in a student's statement, e.g. it can be &lt;code&gt;group_by_item&lt;/code&gt; with &lt;code&gt;HAVING&lt;/code&gt;, respectively, as presented below:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Matched grammar elements: group_by_item&lt;/p&gt;
+&lt;p&gt;Matched tokens: HAVING&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Secondly, in &lt;strong&gt;Extra template data&lt;/strong&gt; section the teacher states which elements of the grammar and tokens have to be detected in the student's statement. Those two lists can have more elements than those provided in &lt;strong&gt;Expected output&lt;/strong&gt; because the teacher e.g. can strictly forbid solving this particular question with the use of a &lt;code&gt;TOP&lt;/code&gt; clause. Moreover, if the teacher e.g. wants to prevent putting multiple independent &lt;code&gt;SELECT&lt;/code&gt; statements, then the &lt;code&gt;sql_clauses&lt;/code&gt; grammar element can be detected. If any of the explicitly provided elements will be detected, then the output text will not match with those provided in &lt;strong&gt;Expected output&lt;/strong&gt; section. See sample code below:&lt;/p&gt;
+&lt;pre class="codehilite"&gt;&lt;code class="language-python"&gt;print(check_query_grammar_elements(['top_clause', 'sql_clauses', 'group_by_item']))
+print(check_query_tokens(['HAVING']))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This kind of heuristic test case is helpful when students practice elementary SQL statements and the teacher wants to check if they know how to solve different problems only by using a given method. Some limitations like multiple SQL clauses, set-theory operations etc. can be provided in this test case but the teacher must be aware that a skilled student can hypothetically bypass these restrictions with a well refined SQL statement. On the other hand, introductory courses assume no prior student knowledge on SQL and even if a student is able to construct such a SQL statement then it is very probable that the skill level present exceeds the course level anyway. Hence deviations of this kind have a very low probability of occurrence and our in our evaluation, where we manually double-checked students' answers, we did not notice cheating in this way. Nevertheless, more sophisticated analysis of the parse tree can be done programmatically here by the teacher if needed.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/datacamp/antlr-tsql/blob/32507b5cff29566a1dc84d54cc29a0be7695df08/antlr_tsql/tsql.g4"&gt;Here&lt;/a&gt; you can see what the SQL grammar used looks like. Note that the template uses the names of grammar elements in lowercase letters.&lt;/p&gt;
+&lt;p&gt;Cheat sheet for &lt;code&gt;check_query_grammar_elements([...])&lt;/code&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;meaning&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'sql_clauses'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;multiple independent SQL queries&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'union_query_expression'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;UNION&lt;/code&gt;, &lt;code&gt;EXCEPT&lt;/code&gt; or &lt;code&gt;INTERSECT&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'top_clause'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;TOP&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'table_source_item_join'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;table join&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'subquery'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;subquery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'aggregate_windowed_function'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;aggregate function&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'group_by_item'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;grouping (&lt;code&gt;GROUP BY&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'null_notnull'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;IS NULL&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'order_by_clause'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;sorting&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;'join_type'&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;join type (e.g. inner or outer)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id="other-types-of-assignments"&gt;Other types of assignments&lt;/h4&gt;
+&lt;p&gt;Above we described DQL, DML and DDL queries but our solution is able to cover problems where a student has to write e.g. SQL script, stored procedures, functions etc., as long as created objects persist within a temporary database. In the above examples we used &lt;code&gt;invoke_cursor_sql(...)&lt;/code&gt; Python function which uses a cursor to process output data, hence we can programmatically investigate structurized tabular output. It is possible to directly use the &lt;code&gt;sqlcmd&lt;/code&gt; command-line tool with &lt;code&gt;invoke_commandline_sql(...)&lt;/code&gt; but note that in this approach, the output is strictly textual and harder to investigate. There are also multiple requirements for correct usage of &lt;code&gt;sqlcmd&lt;/code&gt; defined by Microsoft.&lt;/p&gt;</text>
+		</questiontext>
+		<generalfeedback format="markdown">
+			<text></text>
+		</generalfeedback>
+		<defaultgrade>1</defaultgrade>
+		<penalty>0</penalty>
+		<hidden>0</hidden>
+		<idnumber></idnumber>
+		<prototypetype>2</prototypetype>
+		<allornothing>1</allornothing>
+		<penaltyregime>0</penaltyregime>
+		<precheck>0</precheck>
+		<hidecheck>0</hidecheck>
+		<showsource>0</showsource>
+		<answerboxlines>18</answerboxlines>
+		<answerboxcolumns>100</answerboxcolumns>
+		<answerpreload></answerpreload>
+		<globalextra></globalextra>
+		<useace>1</useace>
+		<resultcolumns></resultcolumns>
+		<template>import sys
+import site
+import os
+venv_path = "/opt/venv/mssql-shared"
+sys.path.insert(0, os.path.join(venv_path, "lib", "python3.11", "site-packages"))
+site.addsitedir(os.path.join(venv_path, "lib", "python3.11", "site-packages"))
+os.environ["VIRTUAL_ENV"] = venv_path
+os.environ["PATH"] = f"{venv_path}/bin:" + os.environ["PATH"]
+
+import warnings
+
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    from pymssql import _mssql
+    import pymssql
+
+import time
+import uuid
+import re
+import subprocess
+import pandas
+import numpy
+import antlr4
+from antlr4.tree import Tree
+from antlr_tsql import grammar as tsql_grammar
+from antlr_ast.ast import parse as parse_ast
+
+CFG = {
+    'user': 'jobe_runner',
+    'password': 'jobe_runner',
+    'server': '127.0.0.1',
+    'port': 1433,
+    'database': 'tempdb',
+    'autocommit': True
+}
+# sqlcmd is not able to handle stdin so a file must be created
+DB_SCRIPT_FILENAME = "db.sql"
+
+def command_line_tool_from_cfg():
+    return [
+    '/opt/mssql-tools/bin/sqlcmd',
+    '-S', 'tcp:'+CFG['server']+','+str(CFG['port']),
+    '-U', CFG['user'],
+    '-P', CFG['password'],
+    '-d', CFG['database'],
+    '-l', '4', # login_timeout
+    '-t', '14', # query_timeout
+    '-b', # terminate batch job if there is an error
+    '-k1', # convert control characters to spaces in output
+    '-i'+DB_SCRIPT_FILENAME # bug in tools 17.5 requires no space in -i
+    ]
+
+COMMAND_LINE_TOOL = command_line_tool_from_cfg()
+
+START_TIME = time.time()
+def DEBUG_TIME(string):
+    """ Outputs time since last invocation with a description, used for debugging. """
+    global START_TIME
+    #print("- %s - %s" % (string, (time.time() - START_TIME)))
+    START_TIME = time.time()
+
+def wait_for_connection(timeout=7.0):
+    """ Attempts to connect to the server with a backoff time until timeout is reached. """
+    while True:
+        try:
+            with _mssql.connect(
+                    server=CFG['server'],
+                    port=CFG['port'],
+                    user=CFG['user'],
+                    password=CFG['password'],
+                    database=CFG['database']) as conn:
+                conn.close()
+            return pymssql.connect(
+                server=CFG['server'],
+                port=CFG['port'],
+                user=CFG['user'],
+                password=CFG['password'],
+                database=CFG['database'],
+                login_timeout=3,
+                autocommit=CFG['autocommit'])
+        except _mssql.MSSQLDatabaseException as ex:
+            time.sleep(0.1)
+            if time.time() - START_TIME &gt;= timeout:
+                raise TimeoutError('Waited too long for server to start.') from ex
+
+def cleanup():
+    """ Cleans up resources. """
+    cursor.close()
+    connection.close()
+    if os.path.exists(DB_SCRIPT_FILENAME):
+        os.remove(DB_SCRIPT_FILENAME)
+    cleanup_shared(conn_master)
+    DEBUG_TIME("stop")
+
+def invoke_commandline_sql(db_code, database=False, timeout=15, command_line_tool=False):
+    """ Invokes given SQL via a command line tool.
+    Errors and timeout will exit the entire script.
+
+    Keyword arguments:
+    db_code -- SQL to invoke
+    database -- database to execute the query in, can be False to disable the feature
+    timeout -- timeout which MUST BE LESS THAN DEFAULT FOR QUESTION TYPE
+    """
+    # MSSQL special case start
+    with open(DB_SCRIPT_FILENAME, "w") as f:
+        if database:
+            f.write("USE %s;\n" % database)
+        f.write(db_code)
+    if not command_line_tool:
+        command_line_tool = command_line_tool_from_cfg()
+    # MSSQL special case end
+
+    try:
+        db_outcome = subprocess.run(
+            command_line_tool,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout,
+            universal_newlines=True,
+            check=False
+        )
+    except subprocess.TimeoutExpired as e:
+        print("SQL invocation timed out", file=sys.stderr)
+        print(e, file=sys.stderr)
+        cleanup()
+        sys.exit(1)
+    if db_outcome.returncode == 0 and db_outcome.stdout.rstrip().endswith("Timeout expired"):
+        print("SQL invocation timed out", file=sys.stderr)
+        cleanup()
+        sys.exit(1)
+    elif db_outcome.returncode != 0:
+        print("SQL invocation failed", file=sys.stderr)
+        print("Process exit code: {rt}".format(rt=db_outcome.returncode), file=sys.stderr)
+        print("Server response:\n", file=sys.stderr)
+        print(db_outcome.stdout, file=sys.stderr)
+        print(db_outcome.stderr, file=sys.stderr)
+        cleanup()
+        sys.exit(1)
+    return db_outcome.stdout
+
+def invoke_cursor_sql(db_code, database=False, sort_result=False):
+    """ Invokes given SQL via the cursor.
+    Warnings will be appended to result.
+    Errors will exit the entire script.
+
+    Keyword arguments:
+    db_code -- SQL to invoke
+    database -- database to execute the query in, can be False to disable the feature
+    sort_result -- output sorted (by 1st, 2nd, etc. column, ascending) results, by default False
+    """
+    warn_msg = None
+    try:
+        if database:
+            db_code = "USE %s;\n" % database + db_code
+        cursor.execute(db_code)
+    except pymssql.Warning as e:
+        warn_msg = e.args[1].decode('utf-8')
+    except pymssql.Error as e:
+        answer_result = e.args[1].decode('utf-8').replace('DB-Lib error message', '\nDB-Lib error message')
+        print(answer_result, file=sys.stderr)
+        cleanup()
+        sys.exit(1)
+
+    try:
+        rows = cursor.fetchall()
+        cols = [x[0] for x in cursor.description]
+        if len(rows) == 0:
+            answer_result = '   '.join(cols)
+        else:
+            df = pandas.DataFrame(rows, range(1, len(rows)+1), cols)
+            if sort_result:
+                df.sort_values(by=list(df.columns), inplace=True)
+                df.index = numpy.arange(1, len(df) + 1)
+            answer_result = df.fillna(value="NULL").to_string()
+    except pymssql.OperationalError as e:
+        if e.args[0] == 'Statement not executed or executed statement has no resultset':
+            answer_result = "{no data}"
+        else:
+            fail_with_error(e.args[0].replace('DB-Lib error message', '\nDB-Lib error message'))
+
+    if warn_msg is not None:
+        answer_result = '{0}\n{1}'.format(answer_result, warn_msg)
+
+    return answer_result
+
+#
+#   START ANTLR
+#
+
+class SqlListener(Tree.ParseTreeListener):
+
+    def __init__(self):
+        super(SqlListener, self).__init__()
+        self.tokens = []
+        self.grammar_elements = []
+
+    def enterEveryRule(self, ctx):
+        if isinstance(ctx, antlr4.tree.Tree.TerminalNodeImpl):
+            self.tokens.append(ctx.getText())
+        elif isinstance(ctx, antlr4.tree.Tree.ErrorNodeImpl):
+            return
+        # skip node rules that are only child and have only child terminal node
+        elif not (ctx.parentCtx is not None and len(ctx.parentCtx.children) == 1
+                  and hasattr(ctx, "children") and len(ctx.children) == 1
+                  and ctx.children[0].__class__.__name__ != "TerminalNodeImpl"):
+            self.grammar_elements.append(re.sub('Context$', '', ctx.__class__.__name__))
+        else:
+            return
+
+    def exitEveryRule(self, ctx):
+        pass
+
+    def visitTerminal(self, node):
+        self.enterEveryRule(node)
+
+    def visitErrorNode(self, node):
+        self.enterEveryRule(node)
+
+def parse_from_grammar(grammar, text, start):
+
+    tree = parse_ast(grammar, text, start)
+    listener = SqlListener()
+    Tree.ParseTreeWalker.DEFAULT.walk(listener, tree)
+
+    return listener
+
+def antlr_analysis():
+    """
+    Performs an antlr analysis only once, this is a dirty method of checking this,
+    but for the sake of user-facing API simplicity it's enough.
+    """
+    if not hasattr(antlr_analysis, "ANALYSIS"):
+        antlr_analysis.ANALYSIS = parse_from_grammar(tsql_grammar, __student_answer__, "tsql_file")
+    return antlr_analysis.ANALYSIS
+
+def check_query_tokens(tokens_to_check):
+    """
+    Checks if antlr analysis contains all of the tokens defined in the parameter.
+    The check is case insensitive. Prints the used tokens in UPPERCASE for ease of use.
+    """
+    analysis = antlr_analysis()
+    # create a sorted list of unique tokens in the query
+    tokens = sorted(set(analysis.tokens))
+
+    matched_tokens = set(map(str.upper, tokens)) &amp; set(map(str.upper, tokens_to_check))
+
+    return 'Matched tokens: ' + ', '.join(sorted(matched_tokens))
+
+def check_query_grammar_elements(grammar_to_check):
+    """
+    Checks if antlr analysis contains all of the grammar elements in the parameter.
+    The check is case insensitive. Prints the used grammar elements in lowercase for ease of use.
+    """
+    analysis = antlr_analysis()
+
+    # create a sorted list of unique nontrivial grammar elements in the query
+    grammar = sorted(set(analysis.grammar_elements))
+
+    matched_grammar = set(map(str.lower, grammar)) &amp; set(map(str.lower, grammar_to_check))
+
+    return 'Matched grammar elements: ' + ', '.join(sorted(matched_grammar))
+
+#
+#   END ANTLR
+#
+
+#
+#   START SHARED
+#
+
+# UUID to use with this run - suffix login, pass and db for uniqueness
+UUID = uuid.uuid4().hex
+
+def init_shared(master_connection):
+    # create login
+    master_connection.execute_non_query("""
+USE master
+CREATE LOGIN login_{uuid} WITH PASSWORD=N'pass_{uuid}', DEFAULT_DATABASE = MASTER, DEFAULT_LANGUAGE = US_ENGLISH
+ALTER LOGIN login_{uuid} ENABLE
+""".format(uuid=UUID))
+
+    # create database
+    master_connection.execute_non_query("""
+USE master
+IF EXISTS(select * from sys.databases where name='db_{uuid}')
+DROP DATABASE db_{uuid}
+
+CREATE DATABASE db_{uuid}
+""".format(uuid=UUID))
+
+    # assign privileges for login to database
+    master_connection.execute_non_query("""
+USE db_{uuid}
+CREATE USER login_{uuid} FOR LOGIN login_{uuid} WITH DEFAULT_SCHEMA = [DBO]
+EXEC sp_addrolemember 'db_owner', 'login_{uuid}'
+""".format(uuid=UUID))
+
+    # modify shared configuration object to point to new connection details
+    CFG['user'] = "login_%s" % UUID
+    CFG['password'] = "pass_%s" % UUID
+    CFG['database'] = "db_%s" % UUID
+
+def cleanup_shared(master_connection):
+    # remove database
+    master_connection.execute_non_query("""
+USE master
+IF EXISTS(select * from sys.databases where name='db_{uuid}')
+DROP DATABASE db_{uuid}
+    """.format(uuid=UUID))
+
+    # remove login
+    master_connection.execute_non_query("""
+USE master
+IF EXISTS
+    (SELECT name
+     FROM master.sys.server_principals
+     WHERE name = 'login_{uuid}')
+BEGIN
+    DROP LOGIN login_{uuid}
+END
+    """.format(uuid=UUID))
+
+    master_connection.close()
+
+# this will fail if the server is not running, we're fine with that
+conn_master = _mssql.connect(
+        server=CFG['server'],
+        port=CFG['port'],
+        user=CFG['user'],
+        password=CFG['password'],
+        database=CFG['database'])
+#
+#   END SHARED
+#
+
+__student_answer__ = """{{ STUDENT_ANSWER | e('py') }}"""
+
+SEPARATOR = "#&lt;ab@17943918#@&gt;#"
+
+{% for TEST in TESTCASES %}
+init_shared(conn_master)
+connection = wait_for_connection()
+DEBUG_TIME('connection')
+
+cursor = connection.cursor()
+
+__testcode__ = r"""{{ TEST.testcode }}"""
+{{ TEST.extra }}
+
+cleanup()
+
+{% if not loop.last %}
+print(SEPARATOR)
+{% endif %}
+{% endfor %}
+</template>
+		<iscombinatortemplate>1</iscombinatortemplate>
+		<allowmultiplestdins>0</allowmultiplestdins>
+		<answer></answer>
+		<validateonsave>0</validateonsave>
+		<testsplitterre>|#&lt;ab@17943918#@&gt;#\n|ms</testsplitterre>
+		<language>python3</language>
+		<acelang>sqlserver</acelang>
+		<sandbox></sandbox>
+		<grader>NearEqualityGrader</grader>
+		<cputimelimitsecs>45</cputimelimitsecs>
+		<memlimitmb></memlimitmb>
+		<sandboxparams></sandboxparams>
+		<templateparams></templateparams>
+		<hoisttemplateparams>1</hoisttemplateparams>
+		<templateparamslang>None</templateparamslang>
+		<templateparamsevalpertry>1</templateparamsevalpertry>
+		<templateparamsevald>{}</templateparamsevald>
+		<twigall>0</twigall>
+		<uiplugin>ace</uiplugin>
+		<uiparameters></uiparameters>
+		<attachments>0</attachments>
+		<attachmentsrequired>0</attachmentsrequired>
+		<maxfilesize>10240</maxfilesize>
+		<filenamesregex></filenamesregex>
+		<filenamesexplain></filenamesexplain>
+		<displayfeedback>1</displayfeedback>
+		<testcases></testcases>
+	</question>
+</quiz>

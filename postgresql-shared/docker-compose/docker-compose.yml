@@ -1,0 +1,18 @@
+version: "2"
+services:
+  db:
+    image: postgres:11.10
+    environment:
+      - POSTGRES_USER=jobe_runner
+      - POSTGRES_PASSWORD=jobe_runner
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - /etc/docker/compose/postgresql/bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.21.0.0/16

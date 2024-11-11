@@ -1,0 +1,26 @@
+version: "2"
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-CU17
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=FIXME
+      - MSSQL_PID=Express
+      - MSSQL_COLLATION=SQL_Latin1_General_CP1_CI_AS
+      - TZ=Etc/UTC
+      #- LD_PRELOAD=/nodirect_open.so
+    ports:
+      - 127.0.0.1:1433:1433
+    volumes:
+      #- /etc/docker/compose/mssql/nodirect_open.so:/nodirect_open.so
+      - /etc/docker/compose/mssql/bootstrap.sql:/bootstrap.sql
+      - /etc/docker/compose/mssql/entrypoint.sh:/entrypoint.sh
+      - /etc/docker/compose/mssql/bootstrap.sh:/bootstrap.sh
+    command: bash -c /entrypoint.sh
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.22.0.0/16
